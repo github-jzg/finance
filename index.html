@@ -115,10 +115,15 @@
             <p class="kicker">Account detail</p>
             <h2 id="table-title">Holdings by account</h2>
           </div>
-          <label class="search-wrap">
-            <span>Search</span>
-            <input id="account-search" type="search" placeholder="Account name" />
-          </label>
+          <div class="table-tools">
+            <label class="search-wrap">
+              <span>Search</span>
+              <input id="account-search" type="search" placeholder="Account name" />
+            </label>
+            <button id="add-holding" class="editor-action" type="button">Add holding</button>
+            <button id="add-snapshot" class="editor-action" type="button">Add snapshot</button>
+            <span id="save-status" class="save-status">Saved</span>
+          </div>
         </div>
         <div class="table-wrap">
           <table>
@@ -140,6 +145,6 @@
       </section>
     </main>
 
-    <script src="app.js?v=10"></script>
+    <script src="app.js?v=17"></script>
   </body>
 </html>

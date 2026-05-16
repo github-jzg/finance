@@ -80,6 +80,110 @@ function renderCompareControls() {
   els.compareBase.value = state.compareBase;
 }
 
+function serializeAllocationToon() {
+  const lines = [
+    "# Asset allocation data in simple TOON-style rows",
+    "# Values are in $000s. Blank numeric fields are treated as zero.",
+    "# snapshot | id | label | shortLabel",
+    "# holding | snapshotId | account | sp500 | bnd | treasury | stock | uninvested",
+    "",
+  ];
+
+  periodOrder.forEach((period) => {
+    const snapshot = snapshots[period];
+    lines.push(`snapshot | ${period} | ${snapshot.label} | ${snapshot.shortLabel}`);
+    snapshot.rows.forEach((row) => {
+      lines.push([
+        "holding",
+        period,
+        row.account,
+        row.sp500 ?? "",
+        row.bnd ?? "",
+        row.treasury ?? "",
+        row.stock ?? "",
+        row.uninvested ?? "",
+      ].join(" | "));
+    });
+    lines.push("");
+  });
+
+  return lines.join("\n");
+}
+
+function refreshAfterDataEdit() {
+  renderPeriodButtons();
+  renderCompareControls();
+  renderSeriesToggles();
+  render();
+}
+
+function refreshDashboardAfterDataEdit() {
+  renderPeriodButtons();
+  renderCompareControls();
+  renderSeriesToggles();
+  render();
+}
+
+async function persistData() {
+  els.saveStatus.textContent = "Saving...";
+  try {
+    const response = await fetch("/save-data", {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: serializeAllocationToon(),
+    });
+    if (!response.ok) throw new Error(`Save failed: ${response.status}`);
+    els.saveStatus.textContent = "Saved";
+  } catch (error) {
+    console.error(error);
+    els.saveStatus.textContent = "Not saved";
+  }
+}
+
+function updateAndSave() {
+  refreshAfterDataEdit();
+  persistData();
+}
+
+function commitInlineEdit(input, field, rowIndex) {
+  const period = getVisiblePeriod();
+  const row = snapshots[period].rows[rowIndex];
+  if (field === "account") {
+    row.account = input.value.trim() || row.account;
+  } else if (input.value.trim() === "") {
+    delete row[field];
+  } else {
+    const nextValue = Number(input.value);
+    if (Number.isNaN(nextValue)) {
+      renderRows();
+      return;
+    }
+    row[field] = nextValue;
+  }
+  updateAndSave();
+}
+
+function startInlineEdit(button) {
+  if (isCompareMode()) return;
+  const rowIndex = Number(button.dataset.row);
+  const field = button.dataset.field;
+  const row = snapshots[getVisiblePeriod()].rows[rowIndex];
+  const currentValue = field === "account" ? row.account : row[field] ?? "";
+  const input = document.createElement("input");
+  input.className = "inline-editor-input";
+  input.type = field !== "account" ? "number" : "text";
+  input.step = "0.1";
+  input.value = currentValue;
+  button.replaceWith(input);
+  input.focus();
+  input.select();
+  input.addEventListener("blur", () => commitInlineEdit(input, field, rowIndex));
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") input.blur();
+    if (event.key === "Escape") renderRows();
+  });
+}
+
 const state = {
   period: "may",
   compareTarget: "may",
@@ -89,6 +193,36 @@ const state = {
   timelineHitPoints: [],
   driftHitColumns: [],
 };
+
+const stateStorageKey = "asset-allocation-dashboard-state";
+
+function saveUiState() {
+  localStorage.setItem(
+    stateStorageKey,
+    JSON.stringify({
+      period: state.period,
+      compareTarget: state.compareTarget,
+      compareBase: state.compareBase,
+      query: state.query,
+      visibleSeries: [...state.visibleSeries],
+    }),
+  );
+}
+
+function restoreUiState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(stateStorageKey) || "{}");
+    if (typeof saved.period === "string") state.period = saved.period;
+    if (typeof saved.compareTarget === "string") state.compareTarget = saved.compareTarget;
+    if (typeof saved.compareBase === "string") state.compareBase = saved.compareBase;
+    if (typeof saved.query === "string") state.query = saved.query;
+    if (Array.isArray(saved.visibleSeries) && saved.visibleSeries.length) {
+      state.visibleSeries = new Set(saved.visibleSeries);
+    }
+  } catch (error) {
+    console.warn("Could not restore dashboard state", error);
+  }
+}
 
 const accountColors = ["#005f73", "#9b2226", "#0a9396", "#ca6702", "#5f0f40", "#3a5a40", "#7b2cbf", "#bb3e03", "#335c67", "#6a994e", "#bc4749", "#386641", "#7f5539", "#4361ee", "#2f3e46"];
 
@@ -121,6 +255,9 @@ const els = {
   search: document.querySelector("#account-search"),
   movementTitle: document.querySelector("#movement-title"),
   tableDeltaHeader: document.querySelector("#table-delta-header"),
+  addHolding: document.querySelector("#add-holding"),
+  addSnapshot: document.querySelector("#add-snapshot"),
+  saveStatus: document.querySelector("#save-status"),
 };
 
 const timelineSeries = [
@@ -198,6 +335,15 @@ function formatCell(value) {
 
 function percent(part, total) {
   return total ? `${Math.round((part / total) * 100)}%` : "0%";
+}
+
+function niceChartMax(value) {
+  if (value <= 0) return 1;
+  const exponent = Math.floor(Math.log10(value));
+  const magnitude = 10 ** exponent;
+  const normalized = value / magnitude;
+  const niceNormalized = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10;
+  return niceNormalized * magnitude;
 }
 
 function timelinePoints() {
@@ -356,7 +502,7 @@ function renderTimelineChart() {
   const chartHeight = height - padding.top - padding.bottom;
   const activePeriod = getVisiblePeriod();
   const maxValue = Math.max(...points.flatMap((point) => seriesToDraw.map((series) => point[series.key] || 0)), 1);
-  const yMax = Math.ceil(maxValue / 500) * 500;
+  const yMax = niceChartMax(maxValue);
   const xFor = (index) => padding.left + (index / (points.length - 1)) * chartWidth;
   const yFor = (value) => padding.top + chartHeight - (value / yMax) * chartHeight;
 
@@ -578,8 +724,9 @@ function renderRows() {
         current: currentMap.get(account) || { account },
         base: baseMap.get(account) || { account },
       }))
-    : snapshots[visiblePeriod].rows.map((row) => ({
+    : snapshots[visiblePeriod].rows.map((row, index) => ({
         account: row.account,
+        index,
         current: row,
         base: baseMap.get(accountLabel(row.account)) || {},
       }));
@@ -593,14 +740,14 @@ function renderRows() {
       const delta = current - other;
       return `
         <tr>
-          <td>${accountLabel(row.account)}</td>
+          <td>${isCompareMode() ? accountLabel(row.account) : `<button class="inline-edit account-edit" type="button" data-row="${row.index}" data-field="account">${accountLabel(row.account)}</button>`}</td>
           ${categories
             .map((category) => {
               const value = isCompareMode()
                 ? valueOf(row.current, category.key) - valueOf(row.base, category.key)
                 : valueOf(row.current, category.key);
               const className = isCompareMode() && value < 0 ? "delta-negative" : isCompareMode() && value > 0 ? "delta-positive" : "";
-              return `<td class="${className}">${isCompareMode() ? formatDelta(value) : formatCell(value)}</td>`;
+              return `<td class="${className}">${isCompareMode() ? formatDelta(value) : `<button class="inline-edit number-edit" type="button" data-row="${row.index}" data-field="${category.key}">${formatCell(value) || "-"}</button>`}</td>`;
             })
             .join("")}
           <td><strong>${isCompareMode() ? formatDelta(delta) : formatCell(current)}</strong></td>
@@ -734,6 +881,9 @@ function handleDriftHover(event) {
 function render() {
   els.buttons.forEach((button) => button.classList.toggle("active", button.dataset.period === state.period));
   els.compareControls.hidden = !isCompareMode();
+  els.addHolding.disabled = isCompareMode();
+  els.addSnapshot.disabled = isCompareMode();
+  els.search.value = state.query;
 
   const basePeriod = getBasePeriod();
   const visiblePeriod = getVisiblePeriod();
@@ -753,16 +903,19 @@ els.periodSwitch.addEventListener("click", (event) => {
   const button = event.target.closest("[data-period]");
   if (!button) return;
   state.period = button.dataset.period;
+  saveUiState();
   render();
 });
 
 els.compareTarget.addEventListener("change", (event) => {
   state.compareTarget = event.target.value;
+  saveUiState();
   render();
 });
 
 els.compareBase.addEventListener("change", (event) => {
   state.compareBase = event.target.value;
+  saveUiState();
   render();
 });
 
@@ -775,6 +928,7 @@ els.seriesToggles.addEventListener("click", (event) => {
   } else {
     state.visibleSeries.add(key);
   }
+  saveUiState();
   renderSeriesToggles();
   renderTimelineChart();
 });
@@ -786,14 +940,44 @@ els.driftChart.addEventListener("mouseleave", hideDriftTooltip);
 
 els.search.addEventListener("input", (event) => {
   state.query = event.target.value;
+  saveUiState();
   renderRows();
+});
+
+els.rows.addEventListener("click", (event) => {
+  const editButton = event.target.closest(".inline-edit");
+  if (editButton) startInlineEdit(editButton);
+});
+
+els.addHolding.addEventListener("click", () => {
+  if (isCompareMode()) return;
+  snapshots[getVisiblePeriod()].rows.push({ account: "New account" });
+  updateAndSave();
+});
+
+els.addSnapshot.addEventListener("click", () => {
+  let nextNumber = periodOrder.length + 1;
+  let id = `snapshot${nextNumber}`;
+  while (snapshots[id]) {
+    nextNumber += 1;
+    id = `snapshot${nextNumber}`;
+  }
+  const label = "New snapshot";
+  const shortLabel = "New";
+  periodOrder.push(id);
+  snapshots[id] = { label, shortLabel, rows: [] };
+  state.period = id;
+  saveUiState();
+  updateAndSave();
 });
 
 async function init() {
   await loadAllocationData();
+  restoreUiState();
   if (!snapshots[state.period]) state.period = periodOrder[periodOrder.length - 1];
   if (!snapshots[state.compareTarget]) state.compareTarget = periodOrder[periodOrder.length - 1];
   if (!snapshots[state.compareBase]) state.compareBase = periodOrder[0];
+  saveUiState();
   renderPeriodButtons();
   renderCompareControls();
   renderSeriesToggles();

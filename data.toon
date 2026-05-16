@@ -89,7 +89,7 @@ holding | aug13 | ROTH - Vanguard | 24 |  | 0 |  |
 holding | aug13 | 401k - Fidelity | 495 |  | 0 |  | 
 holding | aug13 | eTrade |  |  | 226 | 196 | 
 holding | aug13 | Robinhood |  |  |  | 107 | 
-holding | aug13 | Wealthfront | 0 |  |  |  | 
+holding | aug13 | Wealthfront | 5 |  |  |  | 
 holding | aug13 | eTrade Unvested |  |  |  |  | 249
 holding | aug13 | Sasa - Fidelity | 1400 |  |  |  | 
 
@@ -104,7 +104,7 @@ holding | aug30 | ROTH - Vanguard | 24 |  | 0 |  |
 holding | aug30 | 401k - Fidelity | 499 |  | 0 |  | 
 holding | aug30 | eTrade |  |  | 226 | 206 | 
 holding | aug30 | Robinhood |  |  |  | 109 | 
-holding | aug30 | Wealthfront | 0 |  |  |  | 
+holding | aug30 | Wealthfront | 5 |  |  |  | 
 holding | aug30 | eTrade Unvested |  |  |  |  | 249
 holding | aug30 | Sasa - Fidelity (assume 60/40) | 840 | 560 |  |  | 
 
@@ -119,7 +119,7 @@ holding | sep05 | ROTH - Vanguard | 24 |  | 0 |  |
 holding | sep05 | 401k - Fidelity | 501 |  | 0 |  | 
 holding | sep05 | eTrade |  |  | 226 | 213 | 
 holding | sep05 | Robinhood |  |  |  | 115 | 
-holding | sep05 | Wealthfront | 0 |  |  |  | 
+holding | sep05 | Wealthfront | 5 |  |  |  | 
 holding | sep05 | eTrade Unvested |  |  |  |  | 249
 holding | sep05 | Sasa - Fidelity (assume 60/40) | 840 | 560 |  |  | 
 
@@ -134,7 +134,7 @@ holding | sep12 | ROTH - Vanguard | 24 |  | 0 |  |
 holding | sep12 | 401k - Fidelity | 512 |  | 0 |  | 
 holding | sep12 | eTrade |  |  | 226 | 208 | 
 holding | sep12 | Robinhood |  |  |  | 120 | 
-holding | sep12 | Wealthfront | 0 |  |  |  | 
+holding | sep12 | Wealthfront | 5 |  |  |  | 
 holding | sep12 | eTrade Unvested |  |  |  |  | 265
 holding | sep12 | Sasa - Fidelity (assume 60/40) | 1600 | 200 |  |  | 
 
@@ -149,7 +149,7 @@ holding | sep30 | ROTH - Vanguard | 24 |  | 0 |  |
 holding | sep30 | 401k - Fidelity | 523 |  | 0 |  | 
 holding | sep30 | eTrade |  |  | 228 | 229 | 
 holding | sep30 | Robinhood |  |  |  | 123 | 
-holding | sep30 | Wealthfront | 0 |  |  |  | 
+holding | sep30 | Wealthfront | 5 |  |  |  | 
 holding | sep30 | eTrade Unvested |  |  |  |  | 288
 holding | sep30 | Sasa - Fidelity (assume 60/40) | 1600 | 200 |  |  | 
 
@@ -164,7 +164,7 @@ holding | oct07 | ROTH - Vanguard | 24 |  | 0 |  |
 holding | oct07 | 401k - Fidelity | 523 |  | 0 |  | 
 holding | oct07 | eTrade |  |  | 228 | 229 | 
 holding | oct07 | Robinhood |  |  |  | 123 | 
-holding | oct07 | Wealthfront | 0 |  |  |  | 
+holding | oct07 | Wealthfront | 5 |  |  |  | 
 holding | oct07 | eTrade Unvested |  |  |  |  | 288
 holding | oct07 | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
 
@@ -179,7 +179,7 @@ holding | oct17 | ROTH - Vanguard | 24 |  | 0 |  |
 holding | oct17 | 401k - Fidelity | 522 |  | 0 |  | 
 holding | oct17 | eTrade |  |  | 253 | 242 | 
 holding | oct17 | Robinhood |  |  |  | 121 | 
-holding | oct17 | Wealthfront | 0 |  |  |  | 
+holding | oct17 | Wealthfront | 5 |  |  |  | 
 holding | oct17 | eTrade Unvested |  |  |  |  | 288
 holding | oct17 | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
 holding | oct17 | Sasa - Schwab | 2.7 |  |  |  | 
@@ -196,7 +196,7 @@ holding | oct28 | ROTH - Vanguard | 25 |  | 0 |  |
 holding | oct28 | 401k - Fidelity | 546 |  | 0 |  | 
 holding | oct28 | eTrade |  |  | 275 | 241 | 
 holding | oct28 | Robinhood |  |  |  | 130 | 
-holding | oct28 | Wealthfront | 0 |  |  |  | 
+holding | oct28 | Wealthfront | 5 |  |  |  | 
 holding | oct28 | eTrade Unvested |  |  |  |  | 288
 holding | oct28 | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
 holding | oct28 | Sasa - Schwab | 2.7 |  |  |  | 
@@ -213,7 +213,7 @@ holding | jan | ROTH - Vanguard | 26 |  | 0 |  |
 holding | jan | 401k - Fidelity | 572 |  | 0 |  | 
 holding | jan | eTrade |  |  | 248 | 223 | 
 holding | jan | Robinhood |  |  |  | 142 | 
-holding | jan | Wealthfront | 0 |  |  |  | 
+holding | jan | Wealthfront | 5 |  |  |  | 
 holding | jan | eTrade Unvested |  |  |  |  | 324
 holding | jan | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
 holding | jan | Sasa - Schwab | 2.7 |  |  |  | 
@@ -230,7 +230,7 @@ holding | feb | ROTH - Vanguard | 26 |  | 0 |  |
 holding | feb | 401k - Fidelity | 573 |  | 0 |  | 
 holding | feb | eTrade |  |  | 249 | 227 | 
 holding | feb | Robinhood |  |  |  | 133 | 
-holding | feb | Wealthfront | 0 |  |  |  | 
+holding | feb | Wealthfront | 5 |  |  |  | 
 holding | feb | eTrade Unvested |  |  |  |  | 330
 holding | feb | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
 holding | feb | Sasa - Schwab | 2.7 |  |  |  | 
