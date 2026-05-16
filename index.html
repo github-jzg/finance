@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asset Allocation</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="masthead" aria-labelledby="page-title">
+        <div>
+          <p class="kicker">Personal allocation dashboard</p>
+          <h1 id="page-title">Asset allocation</h1>
+        </div>
+        <div class="masthead-right">
+          <div class="period-switch" aria-label="Choose reporting period">
+            <button class="period-button" type="button" data-period="dec24">Dec 2024</button>
+            <button class="period-button" type="button" data-period="apr25">Apr 2025</button>
+            <button class="period-button" type="button" data-period="may25">May 2025</button>
+            <button class="period-button" type="button" data-period="jun25">Jun 2025</button>
+            <button class="period-button" type="button" data-period="jul25">Jul 2025</button>
+            <button class="period-button" type="button" data-period="aug13">Aug 13</button>
+            <button class="period-button" type="button" data-period="aug30">Aug 30</button>
+            <button class="period-button" type="button" data-period="sep05">Sep 05</button>
+            <button class="period-button" type="button" data-period="sep12">Sep 12</button>
+            <button class="period-button" type="button" data-period="sep30">Sep 30</button>
+            <button class="period-button" type="button" data-period="oct07">Oct 07</button>
+            <button class="period-button" type="button" data-period="oct17">Oct 17</button>
+            <button class="period-button" type="button" data-period="oct28">Oct 28</button>
+            <button class="period-button" type="button" data-period="jan">Jan 2026</button>
+            <button class="period-button" type="button" data-period="feb">Feb 2026</button>
+            <button class="period-button active" type="button" data-period="may">May 2026</button>
+            <button class="period-button" type="button" data-period="compare">Compare</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="scoreboard" aria-label="Portfolio summary">
+        <article class="metric-panel total-panel">
+          <span class="metric-label">Total visible assets</span>
+          <strong id="total-value">$0k</strong>
+          <span id="total-delta" class="metric-note"></span>
+        </article>
+        <article class="metric-panel">
+          <span class="metric-label">Equity exposure</span>
+          <strong id="equity-value">0%</strong>
+          <span id="equity-note" class="metric-note"></span>
+        </article>
+        <article class="metric-panel">
+          <span class="metric-label">Fixed income + cash</span>
+          <strong id="defensive-value">0%</strong>
+          <span id="defensive-note" class="metric-note"></span>
+        </article>
+        <article class="metric-panel">
+          <span class="metric-label">Largest account</span>
+          <strong id="largest-account">-</strong>
+          <span id="largest-note" class="metric-note"></span>
+        </article>
+      </section>
+
+      <section class="timeline-section" aria-labelledby="timeline-title">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">Progression</p>
+            <h2 id="timeline-title">Totals over time</h2>
+          </div>
+          <div id="series-toggles" class="series-toggles" aria-label="Choose chart series"></div>
+        </div>
+        <div class="timeline-chart-wrap">
+          <canvas id="timeline-chart" width="1240" height="430" aria-label="Line chart showing asset progression over time"></canvas>
+          <div id="timeline-tooltip" class="timeline-tooltip" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="drift-section" aria-labelledby="drift-title">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">Allocation drift</p>
+            <h2 id="drift-title">Portfolio mix over time</h2>
+          </div>
+          <span class="unit-pill">share of total assets</span>
+        </div>
+        <div class="drift-chart-wrap">
+          <canvas id="drift-chart" width="1240" height="360" aria-label="Stacked area chart showing asset allocation mix over time"></canvas>
+          <div id="drift-tooltip" class="timeline-tooltip" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="chart-panel allocation-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="kicker">Allocation mix</p>
+              <h2 id="allocation-title">May 2026</h2>
+            </div>
+            <span class="unit-pill">values in $000s</span>
+          </div>
+          <div class="allocation-visual">
+            <canvas id="allocation-chart" width="460" height="460" aria-label="Allocation doughnut chart"></canvas>
+            <div class="chart-center">
+              <span id="center-period">May</span>
+              <strong id="center-total">$0k</strong>
+            </div>
+          </div>
+          <div id="legend" class="legend" aria-label="Allocation legend"></div>
+        </article>
+
+        <article class="chart-panel movement-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="kicker">Movement</p>
+              <h2 id="movement-title">Change since Jan</h2>
+            </div>
+          </div>
+          <div id="delta-bars" class="delta-bars"></div>
+        </article>
+      </section>
+
+      <section class="table-section" aria-labelledby="table-title">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">Account detail</p>
+            <h2 id="table-title">Holdings by account</h2>
+          </div>
+          <label class="search-wrap">
+            <span>Search</span>
+            <input id="account-search" type="search" placeholder="Account name" />
+          </label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Account</th>
+                <th scope="col">S&amp;P 500</th>
+                <th scope="col">BND</th>
+                <th scope="col">Treasury</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Uninvested</th>
+                <th scope="col">Total</th>
+                <th scope="col" id="table-delta-header">Jan to May</th>
+              </tr>
+            </thead>
+            <tbody id="account-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js?v=7"></script>
+  </body>
+</html>
