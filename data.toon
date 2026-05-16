@@ -1,0 +1,254 @@
+# Asset allocation data in simple TOON-style rows
+# Values are in $000s. Blank numeric fields are treated as zero.
+# snapshot | id | label | shortLabel
+# holding | snapshotId | account | sp500 | bnd | treasury | stock | uninvested
+
+snapshot | dec24 | Dec 01 2024 | Dec '24
+holding | dec24 | brokerage 1 - Vanguard Trust | 635 |  | 592 |  | 
+holding | dec24 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | dec24 | brokerage 3 - Schwab Roth |  |  |  | 133 | 
+holding | dec24 | LLC - Vanguard |  |  | 163 |  | 
+holding | dec24 | IRA - Vanguard | 670 |  | 191 |  | 
+holding | dec24 | SEP-IRA - Vanguard | 43 |  | 35 |  | 
+holding | dec24 | ROTH - Vanguard | 22 |  | 0 |  | 
+holding | dec24 | 401k - Fidelity | 388 |  | 0 |  | 
+holding | dec24 | eTrade |  |  |  | 450 | 
+holding | dec24 | Robinhood |  |  |  | 95 | 
+holding | dec24 | Wealthfront | 55 |  |  |  | 
+holding | dec24 | eTrade Unvested |  |  |  |  | 335
+holding | dec24 | Sasa - Fidelity | 1400 |  |  |  | 
+
+snapshot | apr25 | Apr 24 2025 | Apr '25
+holding | apr25 | brokerage 1 - Vanguard Trust |  |  | 1218 |  | 
+holding | apr25 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | apr25 | brokerage 3 - Schwab Roth |  |  |  | 111 | 
+holding | apr25 | LLC - Vanguard |  |  | 179 |  | 
+holding | apr25 | IRA - Vanguard | 720 |  | 80 |  | 
+holding | apr25 | SEP-IRA - Vanguard | 75 |  |  |  | 
+holding | apr25 | ROTH - Vanguard | 20 |  | 0 |  | 
+holding | apr25 | 401k - Fidelity | 386 |  | 0 |  | 
+holding | apr25 | eTrade |  |  | 240 | 173 | 
+holding | apr25 | Robinhood |  |  |  | 86 | 
+holding | apr25 | Wealthfront | 53 |  |  |  | 
+holding | apr25 | eTrade Unvested |  |  |  |  | 235
+holding | apr25 | Sasa - Fidelity | 1400 |  |  |  | 
+
+snapshot | may25 | May 20 2025 | May '25
+holding | may25 | brokerage 1 - Vanguard Trust | 438 |  | 792 |  | 
+holding | may25 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | may25 | brokerage 3 - Schwab Roth |  |  |  | 133 | 
+holding | may25 | LLC - Vanguard | 44 |  | 159 |  | 
+holding | may25 | IRA - Vanguard | 854 |  | 28 |  | 
+holding | may25 | SEP-IRA - Vanguard | 81 |  |  |  | 
+holding | may25 | ROTH - Vanguard | 22 |  | 0 |  | 
+holding | may25 | 401k - Fidelity | 436 |  | 0 |  | 
+holding | may25 | eTrade | 252 |  |  | 172 | 
+holding | may25 | Robinhood |  |  |  | 90 | 
+holding | may25 | Wealthfront | 53 |  |  |  | 
+holding | may25 | eTrade Unvested |  |  |  |  | 234
+holding | may25 | Sasa - Fidelity | 1400 |  |  |  | 
+
+snapshot | jun25 | Jun 21 2025 | Jun '25
+holding | jun25 | brokerage 1 - Vanguard Trust | 534 |  | 702 |  | 
+holding | jun25 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | jun25 | brokerage 3 - Schwab Roth |  |  |  | 139 | 
+holding | jun25 | LLC - Vanguard | 93 |  | 125 |  | 
+holding | jun25 | IRA - Vanguard | 885 |  |  |  | 
+holding | jun25 | SEP-IRA - Vanguard | 82 |  |  |  | 
+holding | jun25 | ROTH - Vanguard | 22 |  | 0 |  | 
+holding | jun25 | 401k - Fidelity | 446 |  | 0 |  | 
+holding | jun25 | eTrade |  |  | 244 | 167 | 
+holding | jun25 | Robinhood |  |  |  | 95 | 
+holding | jun25 | Wealthfront | 54 |  |  |  | 
+holding | jun25 | eTrade Unvested |  |  |  |  | 227
+holding | jun25 | Sasa - Fidelity | 1400 |  |  |  | 
+
+snapshot | jul25 | Jul 17 2025 | Jul '25
+holding | jul25 | brokerage 1 - Vanguard Trust | 559 |  | 724 |  | 
+holding | jul25 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | jul25 | brokerage 3 - Schwab Roth |  |  |  | 139 | 
+holding | jul25 | LLC - Vanguard | 81 |  | 150 |  | 
+holding | jul25 | IRA - Vanguard | 936 |  |  |  | 
+holding | jul25 | SEP-IRA - Vanguard | 87 |  |  |  | 
+holding | jul25 | ROTH - Vanguard | 23 |  | 0 |  | 
+holding | jul25 | 401k - Fidelity | 474 |  | 0 |  | 
+holding | jul25 | eTrade |  |  | 225 | 174 | 
+holding | jul25 | Robinhood |  |  |  | 95 | 
+holding | jul25 | Wealthfront | 59 |  |  |  | 
+holding | jul25 | eTrade Unvested |  |  |  |  | 227
+holding | jul25 | Sasa - Fidelity | 1400 |  |  |  | 
+
+snapshot | aug13 | Aug 13 2025 | Aug 13
+holding | aug13 | brokerage 1 - Vanguard Trust | 531 | 341 | 437 |  | 
+holding | aug13 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | aug13 | brokerage 3 - Schwab Roth |  |  |  | 162 | 
+holding | aug13 | LLC - Vanguard | 50 | 125 | 59 |  | 
+holding | aug13 | IRA - Vanguard | 958 |  |  |  | 
+holding | aug13 | SEP-IRA - Vanguard | 89 |  |  |  | 
+holding | aug13 | ROTH - Vanguard | 24 |  | 0 |  | 
+holding | aug13 | 401k - Fidelity | 495 |  | 0 |  | 
+holding | aug13 | eTrade |  |  | 226 | 196 | 
+holding | aug13 | Robinhood |  |  |  | 107 | 
+holding | aug13 | Wealthfront | 0 |  |  |  | 
+holding | aug13 | eTrade Unvested |  |  |  |  | 249
+holding | aug13 | Sasa - Fidelity | 1400 |  |  |  | 
+
+snapshot | aug30 | Aug 30 2025 | Aug 30
+holding | aug30 | brokerage 1 - Vanguard Trust | 537 | 446 | 329 |  | 
+holding | aug30 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | aug30 | brokerage 3 - Schwab Roth |  |  |  | 158 | 
+holding | aug30 | LLC - Vanguard | 50 | 126 | 58 |  | 
+holding | aug30 | IRA - Vanguard | 963 |  |  |  | 
+holding | aug30 | SEP-IRA - Vanguard | 89 |  |  |  | 
+holding | aug30 | ROTH - Vanguard | 24 |  | 0 |  | 
+holding | aug30 | 401k - Fidelity | 499 |  | 0 |  | 
+holding | aug30 | eTrade |  |  | 226 | 206 | 
+holding | aug30 | Robinhood |  |  |  | 109 | 
+holding | aug30 | Wealthfront | 0 |  |  |  | 
+holding | aug30 | eTrade Unvested |  |  |  |  | 249
+holding | aug30 | Sasa - Fidelity (assume 60/40) | 840 | 560 |  |  | 
+
+snapshot | sep05 | Sep 05 2025 | Sep 05
+holding | sep05 | brokerage 1 - Vanguard Trust | 539 | 451 | 329 |  | 
+holding | sep05 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | sep05 | brokerage 3 - Schwab Roth |  |  |  | 156 | 
+holding | sep05 | LLC - Vanguard | 50 | 127 | 58 |  | 
+holding | sep05 | IRA - Vanguard | 508 | 453 | 3 |  | 
+holding | sep05 | SEP-IRA - Vanguard | 89 |  |  |  | 
+holding | sep05 | ROTH - Vanguard | 24 |  | 0 |  | 
+holding | sep05 | 401k - Fidelity | 501 |  | 0 |  | 
+holding | sep05 | eTrade |  |  | 226 | 213 | 
+holding | sep05 | Robinhood |  |  |  | 115 | 
+holding | sep05 | Wealthfront | 0 |  |  |  | 
+holding | sep05 | eTrade Unvested |  |  |  |  | 249
+holding | sep05 | Sasa - Fidelity (assume 60/40) | 840 | 560 |  |  | 
+
+snapshot | sep12 | Sep 12 2025 | Sep 12
+holding | sep12 | brokerage 1 - Vanguard Trust | 551 | 454 | 329 |  | 
+holding | sep12 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | sep12 | brokerage 3 - Schwab Roth |  |  |  | 156 | 
+holding | sep12 | LLC - Vanguard | 54 | 127 | 57 |  | 
+holding | sep12 | IRA - Vanguard | 522 | 456 | 0 |  | 
+holding | sep12 | SEP-IRA - Vanguard | 91 |  |  |  | 
+holding | sep12 | ROTH - Vanguard | 24 |  | 0 |  | 
+holding | sep12 | 401k - Fidelity | 512 |  | 0 |  | 
+holding | sep12 | eTrade |  |  | 226 | 208 | 
+holding | sep12 | Robinhood |  |  |  | 120 | 
+holding | sep12 | Wealthfront | 0 |  |  |  | 
+holding | sep12 | eTrade Unvested |  |  |  |  | 265
+holding | sep12 | Sasa - Fidelity (assume 60/40) | 1600 | 200 |  |  | 
+
+snapshot | sep30 | Sep 30 2025 | Sep 30
+holding | sep30 | brokerage 1 - Vanguard Trust | 558 | 452 | 283 |  | 
+holding | sep30 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | sep30 | brokerage 3 - Schwab Roth |  |  |  | 174 | 
+holding | sep30 | LLC - Vanguard | 53 | 127 | 47 |  | 
+holding | sep30 | IRA - Vanguard | 528 | 454 | 3 |  | 
+holding | sep30 | SEP-IRA - Vanguard | 93 |  | 23 |  | 
+holding | sep30 | ROTH - Vanguard | 24 |  | 0 |  | 
+holding | sep30 | 401k - Fidelity | 523 |  | 0 |  | 
+holding | sep30 | eTrade |  |  | 228 | 229 | 
+holding | sep30 | Robinhood |  |  |  | 123 | 
+holding | sep30 | Wealthfront | 0 |  |  |  | 
+holding | sep30 | eTrade Unvested |  |  |  |  | 288
+holding | sep30 | Sasa - Fidelity (assume 60/40) | 1600 | 200 |  |  | 
+
+snapshot | oct07 | Oct 07 2025 | Oct 07
+holding | oct07 | brokerage 1 - Vanguard Trust | 558 | 452 | 283 |  | 
+holding | oct07 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | oct07 | brokerage 3 - Schwab Roth |  |  |  | 174 | 
+holding | oct07 | LLC - Vanguard | 53 | 127 | 47 |  | 
+holding | oct07 | IRA - Vanguard | 528 | 454 | 3 |  | 
+holding | oct07 | SEP-IRA - Vanguard | 93 |  | 23 |  | 
+holding | oct07 | ROTH - Vanguard | 24 |  | 0 |  | 
+holding | oct07 | 401k - Fidelity | 523 |  | 0 |  | 
+holding | oct07 | eTrade |  |  | 228 | 229 | 
+holding | oct07 | Robinhood |  |  |  | 123 | 
+holding | oct07 | Wealthfront | 0 |  |  |  | 
+holding | oct07 | eTrade Unvested |  |  |  |  | 288
+holding | oct07 | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
+
+snapshot | oct17 | Oct 17 2025 | Oct 17
+holding | oct17 | brokerage 1 - Vanguard Trust | 622 | 312 | 355 |  | 
+holding | oct17 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | oct17 | brokerage 3 - Schwab Roth |  |  |  | 172 | 
+holding | oct17 | LLC - Vanguard | 183 | 1 | 43 |  | 
+holding | oct17 | IRA - Vanguard | 522 | 462 | 3 |  | 
+holding | oct17 | SEP-IRA - Vanguard | 91 |  | 24 |  | 
+holding | oct17 | ROTH - Vanguard | 24 |  | 0 |  | 
+holding | oct17 | 401k - Fidelity | 522 |  | 0 |  | 
+holding | oct17 | eTrade |  |  | 253 | 242 | 
+holding | oct17 | Robinhood |  |  |  | 121 | 
+holding | oct17 | Wealthfront | 0 |  |  |  | 
+holding | oct17 | eTrade Unvested |  |  |  |  | 288
+holding | oct17 | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
+holding | oct17 | Sasa - Schwab | 2.7 |  |  |  | 
+holding | oct17 | Trowe Price | 2 |  |  |  | 
+
+snapshot | oct28 | Oct 28 2025 | Oct 28
+holding | oct28 | brokerage 1 - Vanguard Trust | 645 | 312 | 371 |  | 
+holding | oct28 | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | oct28 | brokerage 3 - Schwab Roth |  |  |  | 183 | 
+holding | oct28 | LLC - Vanguard | 188 | 0.1 | 53 |  | 
+holding | oct28 | IRA - Vanguard | 542 | 463 | 0.1 |  | 
+holding | oct28 | SEP-IRA - Vanguard | 119 |  | 24 |  | 
+holding | oct28 | ROTH - Vanguard | 25 |  | 0 |  | 
+holding | oct28 | 401k - Fidelity | 546 |  | 0 |  | 
+holding | oct28 | eTrade |  |  | 275 | 241 | 
+holding | oct28 | Robinhood |  |  |  | 130 | 
+holding | oct28 | Wealthfront | 0 |  |  |  | 
+holding | oct28 | eTrade Unvested |  |  |  |  | 288
+holding | oct28 | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
+holding | oct28 | Sasa - Schwab | 2.7 |  |  |  | 
+holding | oct28 | Trowe Price | 2 |  |  |  | 
+
+snapshot | jan | Jan 2026 | Jan
+holding | jan | brokerage 1 - Vanguard Trust | 579 | 239 | 572 |  | 
+holding | jan | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | jan | brokerage 3 - Schwab Roth |  |  |  | 184 | 
+holding | jan | LLC - Vanguard | 200 | 0.1 | 28 |  | 
+holding | jan | IRA - Vanguard | 546 | 462 | 0.1 |  | 
+holding | jan | SEP-IRA - Vanguard | 120 |  | 24 |  | 
+holding | jan | ROTH - Vanguard | 26 |  | 0 |  | 
+holding | jan | 401k - Fidelity | 572 |  | 0 |  | 
+holding | jan | eTrade |  |  | 248 | 223 | 
+holding | jan | Robinhood |  |  |  | 142 | 
+holding | jan | Wealthfront | 0 |  |  |  | 
+holding | jan | eTrade Unvested |  |  |  |  | 324
+holding | jan | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
+holding | jan | Sasa - Schwab | 2.7 |  |  |  | 
+holding | jan | Trowe Price | 2 |  |  |  | 
+
+snapshot | feb | Feb 22 2026 | Feb
+holding | feb | brokerage 1 - Vanguard Trust | 579 | 239 | 572 |  | 
+holding | feb | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | feb | brokerage 3 - Schwab Roth |  |  |  | 187 | 
+holding | feb | LLC - Vanguard | 207 | 0.1 | 47 |  | 
+holding | feb | IRA - Vanguard | 545 | 467 | 0.1 |  | 
+holding | feb | SEP-IRA - Vanguard | 92 |  | 28 |  | 
+holding | feb | ROTH - Vanguard | 26 |  | 0 |  | 
+holding | feb | 401k - Fidelity | 573 |  | 0 |  | 
+holding | feb | eTrade |  |  | 249 | 227 | 
+holding | feb | Robinhood |  |  |  | 133 | 
+holding | feb | Wealthfront | 0 |  |  |  | 
+holding | feb | eTrade Unvested |  |  |  |  | 330
+holding | feb | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
+holding | feb | Sasa - Schwab | 2.7 |  |  |  | 
+holding | feb | Trowe Price | 2 |  |  |  | 
+
+snapshot | may | May 2026 | May
+holding | may | brokerage 1 - Vanguard Trust | 700 | 162 | 461 |  | 
+holding | may | brokerage 2 - Vanguard | 0 |  | 0 |  | 
+holding | may | brokerage 3 - Schwab Roth |  |  |  | 212 | 
+holding | may | LLC - Vanguard | 213 | 0.1 | 34 |  | 
+holding | may | IRA - Vanguard | 588 | 459 | 0.1 |  | 
+holding | may | SEP-IRA - Vanguard | 102 |  | 48 |  | 
+holding | may | ROTH - Vanguard | 28 |  | 0 |  | 
+holding | may | 401k - Fidelity | 636 |  | 0 |  | 
+holding | may | eTrade |  |  | 226 | 307 | 
+holding | may | Robinhood |  |  |  | 160 | 
+holding | may | Wealthfront | 5 |  |  |  | 
+holding | may | eTrade Unvested |  |  |  |  | 292
+holding | may | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
+holding | may | Sasa - Schwab | 2.7 |  |  |  | 
+holding | may | Trowe Price | 2 |  |  |  | 

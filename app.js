@@ -6,327 +6,84 @@ const categories = [
   { key: "uninvested", label: "Uninvested", color: "#77746a", group: "defensive" },
 ];
 
-const periodOrder = ["dec24", "apr25", "may25", "jun25", "jul25", "aug13", "aug30", "sep05", "sep12", "sep30", "oct07", "oct17", "oct28", "jan", "feb", "may"];
+let periodOrder = [];
+let snapshots = {};
 
-const snapshots = {
-  dec24: {
-    label: "Dec 01 2024",
-    shortLabel: "Dec '24",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 635, treasury: 592 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 133 },
-      { account: "LLC - Vanguard", treasury: 163 },
-      { account: "IRA - Vanguard", sp500: 670, treasury: 191 },
-      { account: "SEP-IRA - Vanguard", sp500: 43, treasury: 35 },
-      { account: "ROTH - Vanguard", sp500: 22, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 388, treasury: 0 },
-      { account: "eTrade", stock: 450 },
-      { account: "Robinhood", stock: 95 },
-      { account: "Wealthfront", sp500: 55 },
-      { account: "eTrade Unvested", uninvested: 335 },
-      { account: "Sasa - Fidelity", sp500: 1400 },
-    ],
-  },
-  apr25: {
-    label: "Apr 24 2025",
-    shortLabel: "Apr '25",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", treasury: 1218 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 111 },
-      { account: "LLC - Vanguard", treasury: 179 },
-      { account: "IRA - Vanguard", sp500: 720, treasury: 80 },
-      { account: "SEP-IRA - Vanguard", sp500: 75 },
-      { account: "ROTH - Vanguard", sp500: 20, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 386, treasury: 0 },
-      { account: "eTrade", treasury: 240, stock: 173 },
-      { account: "Robinhood", stock: 86 },
-      { account: "Wealthfront", sp500: 53 },
-      { account: "eTrade Unvested", uninvested: 235 },
-      { account: "Sasa - Fidelity", sp500: 1400 },
-    ],
-  },
-  may25: {
-    label: "May 20 2025",
-    shortLabel: "May '25",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 438, treasury: 792 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 133 },
-      { account: "LLC - Vanguard", sp500: 44, treasury: 159 },
-      { account: "IRA - Vanguard", sp500: 854, treasury: 28 },
-      { account: "SEP-IRA - Vanguard", sp500: 81 },
-      { account: "ROTH - Vanguard", sp500: 22, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 436, treasury: 0 },
-      { account: "eTrade", sp500: 252, stock: 172 },
-      { account: "Robinhood", stock: 90 },
-      { account: "Wealthfront", sp500: 53 },
-      { account: "eTrade Unvested", uninvested: 234 },
-      { account: "Sasa - Fidelity", sp500: 1400 },
-    ],
-  },
-  jun25: {
-    label: "Jun 21 2025",
-    shortLabel: "Jun '25",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 534, treasury: 702 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 139 },
-      { account: "LLC - Vanguard", sp500: 93, treasury: 125 },
-      { account: "IRA - Vanguard", sp500: 885 },
-      { account: "SEP-IRA - Vanguard", sp500: 82 },
-      { account: "ROTH - Vanguard", sp500: 22, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 446, treasury: 0 },
-      { account: "eTrade", treasury: 244, stock: 167 },
-      { account: "Robinhood", stock: 95 },
-      { account: "Wealthfront", sp500: 54 },
-      { account: "eTrade Unvested", uninvested: 227 },
-      { account: "Sasa - Fidelity", sp500: 1400 },
-    ],
-  },
-  jul25: {
-    label: "Jul 17 2025",
-    shortLabel: "Jul '25",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 559, treasury: 724 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 139 },
-      { account: "LLC - Vanguard", sp500: 81, treasury: 150 },
-      { account: "IRA - Vanguard", sp500: 936 },
-      { account: "SEP-IRA - Vanguard", sp500: 87 },
-      { account: "ROTH - Vanguard", sp500: 23, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 474, treasury: 0 },
-      { account: "eTrade", treasury: 225, stock: 174 },
-      { account: "Robinhood", stock: 95 },
-      { account: "Wealthfront", sp500: 59 },
-      { account: "eTrade Unvested", uninvested: 227 },
-      { account: "Sasa - Fidelity", sp500: 1400 },
-    ],
-  },
-  aug13: {
-    label: "Aug 13 2025",
-    shortLabel: "Aug 13",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 531, bnd: 341, treasury: 437 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 162 },
-      { account: "LLC - Vanguard", sp500: 50, bnd: 125, treasury: 59 },
-      { account: "IRA - Vanguard", sp500: 958 },
-      { account: "SEP-IRA - Vanguard", sp500: 89 },
-      { account: "ROTH - Vanguard", sp500: 24, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 495, treasury: 0 },
-      { account: "eTrade", treasury: 226, stock: 196 },
-      { account: "Robinhood", stock: 107 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 249 },
-      { account: "Sasa - Fidelity", sp500: 1400 },
-    ],
-  },
-  aug30: {
-    label: "Aug 30 2025",
-    shortLabel: "Aug 30",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 537, bnd: 446, treasury: 329 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 158 },
-      { account: "LLC - Vanguard", sp500: 50, bnd: 126, treasury: 58 },
-      { account: "IRA - Vanguard", sp500: 963 },
-      { account: "SEP-IRA - Vanguard", sp500: 89 },
-      { account: "ROTH - Vanguard", sp500: 24, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 499, treasury: 0 },
-      { account: "eTrade", treasury: 226, stock: 206 },
-      { account: "Robinhood", stock: 109 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 249 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 840, bnd: 560 },
-    ],
-  },
-  sep05: {
-    label: "Sep 05 2025",
-    shortLabel: "Sep 05",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 539, bnd: 451, treasury: 329 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 156 },
-      { account: "LLC - Vanguard", sp500: 50, bnd: 127, treasury: 58 },
-      { account: "IRA - Vanguard", sp500: 508, bnd: 453, treasury: 3 },
-      { account: "SEP-IRA - Vanguard", sp500: 89 },
-      { account: "ROTH - Vanguard", sp500: 24, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 501, treasury: 0 },
-      { account: "eTrade", treasury: 226, stock: 213 },
-      { account: "Robinhood", stock: 115 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 249 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 840, bnd: 560 },
-    ],
-  },
-  sep12: {
-    label: "Sep 12 2025",
-    shortLabel: "Sep 12",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 551, bnd: 454, treasury: 329 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 156 },
-      { account: "LLC - Vanguard", sp500: 54, bnd: 127, treasury: 57 },
-      { account: "IRA - Vanguard", sp500: 522, bnd: 456, treasury: 0 },
-      { account: "SEP-IRA - Vanguard", sp500: 91 },
-      { account: "ROTH - Vanguard", sp500: 24, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 512, treasury: 0 },
-      { account: "eTrade", treasury: 226, stock: 208 },
-      { account: "Robinhood", stock: 120 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 265 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 1600, bnd: 200 },
-    ],
-  },
-  sep30: {
-    label: "Sep 30 2025",
-    shortLabel: "Sep 30",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 558, bnd: 452, treasury: 283 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 174 },
-      { account: "LLC - Vanguard", sp500: 53, bnd: 127, treasury: 47 },
-      { account: "IRA - Vanguard", sp500: 528, bnd: 454, treasury: 3 },
-      { account: "SEP-IRA - Vanguard", sp500: 93, treasury: 23 },
-      { account: "ROTH - Vanguard", sp500: 24, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 523, treasury: 0 },
-      { account: "eTrade", treasury: 228, stock: 229 },
-      { account: "Robinhood", stock: 123 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 288 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 1600, bnd: 200 },
-    ],
-  },
-  oct07: {
-    label: "Oct 07 2025",
-    shortLabel: "Oct 07",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 558, bnd: 452, treasury: 283 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 174 },
-      { account: "LLC - Vanguard", sp500: 53, bnd: 127, treasury: 47 },
-      { account: "IRA - Vanguard", sp500: 528, bnd: 454, treasury: 3 },
-      { account: "SEP-IRA - Vanguard", sp500: 93, treasury: 23 },
-      { account: "ROTH - Vanguard", sp500: 24, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 523, treasury: 0 },
-      { account: "eTrade", treasury: 228, stock: 229 },
-      { account: "Robinhood", stock: 123 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 288 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 1020, bnd: 780 },
-    ],
-  },
-  oct17: {
-    label: "Oct 17 2025",
-    shortLabel: "Oct 17",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 622, bnd: 312, treasury: 355 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 172 },
-      { account: "LLC - Vanguard", sp500: 183, bnd: 1, treasury: 43 },
-      { account: "IRA - Vanguard", sp500: 522, bnd: 462, treasury: 3 },
-      { account: "SEP-IRA - Vanguard", sp500: 91, treasury: 24 },
-      { account: "ROTH - Vanguard", sp500: 24, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 522, treasury: 0 },
-      { account: "eTrade", treasury: 253, stock: 242 },
-      { account: "Robinhood", stock: 121 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 288 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 1020, bnd: 780 },
-      { account: "Sasa - Schwab", sp500: 2.7 },
-      { account: "Trowe Price", sp500: 2 },
-    ],
-  },
-  oct28: {
-    label: "Oct 28 2025",
-    shortLabel: "Oct 28",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 645, bnd: 312, treasury: 371 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 183 },
-      { account: "LLC - Vanguard", sp500: 188, bnd: 0.1, treasury: 53 },
-      { account: "IRA - Vanguard", sp500: 542, bnd: 463, treasury: 0.1 },
-      { account: "SEP-IRA - Vanguard", sp500: 119, treasury: 24 },
-      { account: "ROTH - Vanguard", sp500: 25, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 546, treasury: 0 },
-      { account: "eTrade", treasury: 275, stock: 241 },
-      { account: "Robinhood", stock: 130 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 288 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 1020, bnd: 780 },
-      { account: "Sasa - Schwab", sp500: 2.7 },
-      { account: "Trowe Price", sp500: 2 },
-    ],
-  },
-  jan: {
-    label: "Jan 2026",
-    shortLabel: "Jan",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 579, bnd: 239, treasury: 572 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 184 },
-      { account: "LLC - Vanguard", sp500: 200, bnd: 0.1, treasury: 28 },
-      { account: "IRA - Vanguard", sp500: 546, bnd: 462, treasury: 0.1 },
-      { account: "SEP-IRA - Vanguard", sp500: 120, treasury: 24 },
-      { account: "ROTH - Vanguard", sp500: 26, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 572, treasury: 0 },
-      { account: "eTrade", treasury: 248, stock: 223 },
-      { account: "Robinhood", stock: 142 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 324 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 1020, bnd: 780 },
-      { account: "Sasa - Schwab", sp500: 2.7 },
-      { account: "Trowe Price", sp500: 2 },
-    ],
-  },
-  feb: {
-    label: "Feb 22 2026",
-    shortLabel: "Feb",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 579, bnd: 239, treasury: 572 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 187 },
-      { account: "LLC - Vanguard", sp500: 207, bnd: 0.1, treasury: 47 },
-      { account: "IRA - Vanguard", sp500: 545, bnd: 467, treasury: 0.1 },
-      { account: "SEP-IRA - Vanguard", sp500: 92, treasury: 28 },
-      { account: "ROTH - Vanguard", sp500: 26, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 573, treasury: 0 },
-      { account: "eTrade", treasury: 249, stock: 227 },
-      { account: "Robinhood", stock: 133 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 330 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 1020, bnd: 780 },
-      { account: "Sasa - Schwab", sp500: 2.7 },
-      { account: "Trowe Price", sp500: 2 },
-    ],
-  },
-  may: {
-    label: "May 2026",
-    shortLabel: "May",
-    rows: [
-      { account: "brokerage 1 - Vanguard Trust", sp500: 700, bnd: 162, treasury: 461 },
-      { account: "brokerage 2 - Vanguard", sp500: 0, treasury: 0 },
-      { account: "brokerage 3 - Schwab Roth", stock: 212 },
-      { account: "LLC - Vanguard", sp500: 213, bnd: 0.1, treasury: 34 },
-      { account: "IRA - Vanguard", sp500: 588, bnd: 459, treasury: 0.1 },
-      { account: "SEP-IRA - Vanguard", sp500: 102, treasury: 48 },
-      { account: "ROTH - Vanguard", sp500: 28, treasury: 0 },
-      { account: "401k - Fidelity", sp500: 636, treasury: 0 },
-      { account: "eTrade", treasury: 226, stock: 307 },
-      { account: "Robinhood", stock: 160 },
-      { account: "Wealthfront", sp500: 0 },
-      { account: "eTrade Unvested", uninvested: 292 },
-      { account: "Sasa - Fidelity (assume 60/40)", sp500: 1020, bnd: 780 },
-      { account: "Sasa - Schwab", sp500: 2.7 },
-      { account: "Trowe Price", sp500: 2 },
-    ],
-  },
-};
+function parseNumber(value) {
+  const trimmed = value.trim();
+  return trimmed === "" ? undefined : Number(trimmed);
+}
+
+function parseAllocationToon(text) {
+  const parsedOrder = [];
+  const parsedSnapshots = {};
+  const numericKeys = ["sp500", "bnd", "treasury", "stock", "uninvested"];
+
+  text.split(/\r?\n/).forEach((line, index) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) return;
+
+    const parts = line.split("|").map((part) => part.trim());
+    const type = parts[0];
+
+    if (type === "snapshot") {
+      const [, id, label, shortLabel] = parts;
+      if (!id || !label || !shortLabel) throw new Error(`Invalid snapshot row on line ${index + 1}`);
+      parsedOrder.push(id);
+      parsedSnapshots[id] = { label, shortLabel, rows: [] };
+      return;
+    }
+
+    if (type === "holding") {
+      const [, snapshotId, account, ...values] = parts;
+      if (!parsedSnapshots[snapshotId]) throw new Error(`Holding references unknown snapshot "${snapshotId}" on line ${index + 1}`);
+      if (!account) throw new Error(`Missing account name on line ${index + 1}`);
+      const row = { account };
+      numericKeys.forEach((key, valueIndex) => {
+        const value = parseNumber(values[valueIndex] || "");
+        if (Number.isNaN(value)) throw new Error(`Invalid number for ${key} on line ${index + 1}`);
+        if (value !== undefined) row[key] = value;
+      });
+      parsedSnapshots[snapshotId].rows.push(row);
+      return;
+    }
+
+    throw new Error(`Unknown row type "${type}" on line ${index + 1}`);
+  });
+
+  return { periodOrder: parsedOrder, snapshots: parsedSnapshots };
+}
+
+async function loadAllocationData() {
+  const response = await fetch(`data.toon?t=${Date.now()}`);
+  if (!response.ok) throw new Error(`Could not load data.toon: ${response.status}`);
+  const parsed = parseAllocationToon(await response.text());
+  periodOrder = parsed.periodOrder;
+  snapshots = parsed.snapshots;
+}
+
+function renderPeriodButtons() {
+  els.periodSwitch.innerHTML = [
+    ...periodOrder.map((period) => `<button class="period-button" type="button" data-period="${period}">${snapshots[period].label}</button>`),
+    `<button class="period-button" type="button" data-period="compare">Compare</button>`,
+  ].join("");
+  els.buttons = [...document.querySelectorAll(".period-button")];
+}
+
+function renderCompareControls() {
+  const options = periodOrder
+    .map((period) => `<option value="${period}">${snapshots[period].label}</option>`)
+    .join("");
+  els.compareTarget.innerHTML = options;
+  els.compareBase.innerHTML = options;
+  els.compareTarget.value = state.compareTarget;
+  els.compareBase.value = state.compareBase;
+}
 
 const state = {
   period: "may",
+  compareTarget: "may",
+  compareBase: "jan",
   query: "",
   visibleSeries: new Set(["total", "sp500", "bnd", "treasury", "stock", "uninvested"]),
   timelineHitPoints: [],
@@ -337,6 +94,10 @@ const accountColors = ["#005f73", "#9b2226", "#0a9396", "#ca6702", "#5f0f40", "#
 
 const els = {
   buttons: [...document.querySelectorAll(".period-button")],
+  periodSwitch: document.querySelector("#period-switch"),
+  compareControls: document.querySelector("#compare-controls"),
+  compareTarget: document.querySelector("#compare-target"),
+  compareBase: document.querySelector("#compare-base"),
   totalValue: document.querySelector("#total-value"),
   totalDelta: document.querySelector("#total-delta"),
   equityValue: document.querySelector("#equity-value"),
@@ -416,7 +177,7 @@ function sumTotals(totals) {
 }
 
 function accountMap(period) {
-  return new Map(snapshots[period].rows.map((row) => [row.account, row]));
+  return new Map(snapshots[period].rows.map((row) => [accountLabel(row.account), row]));
 }
 
 function formatK(value) {
@@ -457,11 +218,15 @@ function timelinePoints() {
 }
 
 function getVisiblePeriod() {
-  return state.period === "compare" ? "may" : state.period;
+  return state.period === "compare" ? state.compareTarget : state.period;
 }
 
 function getBasePeriod() {
-  return "jan";
+  return state.period === "compare" ? state.compareBase : "jan";
+}
+
+function isCompareMode() {
+  return state.period === "compare";
 }
 
 function renderSummary() {
@@ -805,26 +570,56 @@ function renderDeltaBars() {
 function renderRows() {
   const visiblePeriod = getVisiblePeriod();
   const basePeriod = getBasePeriod();
-  const rows = snapshots[visiblePeriod].rows;
-  const comparison = accountMap(basePeriod);
+  const currentMap = accountMap(visiblePeriod);
+  const baseMap = accountMap(basePeriod);
+  const rows = isCompareMode()
+    ? [...new Set([...currentMap.keys(), ...baseMap.keys()])].map((account) => ({
+        account,
+        current: currentMap.get(account) || { account },
+        base: baseMap.get(account) || { account },
+      }))
+    : snapshots[visiblePeriod].rows.map((row) => ({
+        account: row.account,
+        current: row,
+        base: baseMap.get(accountLabel(row.account)) || {},
+      }));
   const query = state.query.trim().toLowerCase();
-  const filteredRows = rows.filter((row) => row.account.toLowerCase().includes(query));
+  const filteredRows = rows.filter((row) => accountLabel(row.account).toLowerCase().includes(query));
 
   els.rows.innerHTML = filteredRows
     .map((row) => {
-      const current = rowTotal(row);
-      const other = rowTotal(comparison.get(row.account) || {});
+      const current = rowTotal(row.current);
+      const other = rowTotal(row.base);
       const delta = current - other;
       return `
         <tr>
-          <td>${row.account}</td>
-          ${categories.map((category) => `<td>${formatCell(valueOf(row, category.key))}</td>`).join("")}
-          <td><strong>${formatCell(current)}</strong></td>
+          <td>${accountLabel(row.account)}</td>
+          ${categories
+            .map((category) => {
+              const value = isCompareMode()
+                ? valueOf(row.current, category.key) - valueOf(row.base, category.key)
+                : valueOf(row.current, category.key);
+              const className = isCompareMode() && value < 0 ? "delta-negative" : isCompareMode() && value > 0 ? "delta-positive" : "";
+              return `<td class="${className}">${isCompareMode() ? formatDelta(value) : formatCell(value)}</td>`;
+            })
+            .join("")}
+          <td><strong>${isCompareMode() ? formatDelta(delta) : formatCell(current)}</strong></td>
           <td class="${delta < 0 ? "delta-negative" : "delta-positive"}">${formatDelta(delta)}</td>
         </tr>
       `;
     })
     .join("");
+}
+
+function renderTableHeaders() {
+  const headers = document.querySelectorAll("thead th");
+  const prefix = isCompareMode() ? "Δ " : "";
+  headers[1].textContent = `${prefix}S&P 500`;
+  headers[2].textContent = `${prefix}BND`;
+  headers[3].textContent = `${prefix}Treasury`;
+  headers[4].textContent = `${prefix}Stock`;
+  headers[5].textContent = `${prefix}Uninvested`;
+  headers[6].textContent = isCompareMode() ? "Δ Total" : "Total";
 }
 
 function timelineCanvasPoint(event) {
@@ -938,10 +733,11 @@ function handleDriftHover(event) {
 
 function render() {
   els.buttons.forEach((button) => button.classList.toggle("active", button.dataset.period === state.period));
+  els.compareControls.hidden = !isCompareMode();
 
   const basePeriod = getBasePeriod();
   const visiblePeriod = getVisiblePeriod();
-  els.movementTitle.textContent = `Change since ${snapshots[basePeriod].shortLabel}`;
+  els.movementTitle.textContent = isCompareMode() ? `${snapshots[visiblePeriod].shortLabel} vs ${snapshots[basePeriod].shortLabel}` : `Change since ${snapshots[basePeriod].shortLabel}`;
   els.tableDeltaHeader.textContent = `${snapshots[basePeriod].shortLabel} to ${snapshots[visiblePeriod].shortLabel}`;
 
   renderSummary();
@@ -949,14 +745,25 @@ function render() {
   renderDriftChart();
   renderChart();
   renderDeltaBars();
+  renderTableHeaders();
   renderRows();
 }
 
-els.buttons.forEach((button) => {
-  button.addEventListener("click", () => {
-    state.period = button.dataset.period;
-    render();
-  });
+els.periodSwitch.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-period]");
+  if (!button) return;
+  state.period = button.dataset.period;
+  render();
+});
+
+els.compareTarget.addEventListener("change", (event) => {
+  state.compareTarget = event.target.value;
+  render();
+});
+
+els.compareBase.addEventListener("change", (event) => {
+  state.compareBase = event.target.value;
+  render();
 });
 
 els.seriesToggles.addEventListener("click", (event) => {
@@ -982,5 +789,18 @@ els.search.addEventListener("input", (event) => {
   renderRows();
 });
 
-renderSeriesToggles();
-render();
+async function init() {
+  await loadAllocationData();
+  if (!snapshots[state.period]) state.period = periodOrder[periodOrder.length - 1];
+  if (!snapshots[state.compareTarget]) state.compareTarget = periodOrder[periodOrder.length - 1];
+  if (!snapshots[state.compareBase]) state.compareBase = periodOrder[0];
+  renderPeriodButtons();
+  renderCompareControls();
+  renderSeriesToggles();
+  render();
+}
+
+init().catch((error) => {
+  console.error(error);
+  els.periodSwitch.textContent = "Could not load data.toon";
+});

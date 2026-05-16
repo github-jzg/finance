@@ -115,6 +115,39 @@ h2 {
   gap: 16px;
 }
 
+.compare-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  max-width: min(720px, calc(100vw - 64px));
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.compare-controls[hidden] {
+  display: none;
+}
+
+.compare-controls label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.compare-controls select {
+  min-height: 38px;
+  min-width: 190px;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--panel);
+  color: var(--ink);
+  font-weight: 800;
+}
+
 .scoreboard {
   display: grid;
   grid-template-columns: 1.4fr repeat(3, 1fr);

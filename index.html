@@ -14,25 +14,17 @@
           <h1 id="page-title">Asset allocation</h1>
         </div>
         <div class="masthead-right">
-          <div class="period-switch" aria-label="Choose reporting period">
-            <button class="period-button" type="button" data-period="dec24">Dec 2024</button>
-            <button class="period-button" type="button" data-period="apr25">Apr 2025</button>
-            <button class="period-button" type="button" data-period="may25">May 2025</button>
-            <button class="period-button" type="button" data-period="jun25">Jun 2025</button>
-            <button class="period-button" type="button" data-period="jul25">Jul 2025</button>
-            <button class="period-button" type="button" data-period="aug13">Aug 13</button>
-            <button class="period-button" type="button" data-period="aug30">Aug 30</button>
-            <button class="period-button" type="button" data-period="sep05">Sep 05</button>
-            <button class="period-button" type="button" data-period="sep12">Sep 12</button>
-            <button class="period-button" type="button" data-period="sep30">Sep 30</button>
-            <button class="period-button" type="button" data-period="oct07">Oct 07</button>
-            <button class="period-button" type="button" data-period="oct17">Oct 17</button>
-            <button class="period-button" type="button" data-period="oct28">Oct 28</button>
-            <button class="period-button" type="button" data-period="jan">Jan 2026</button>
-            <button class="period-button" type="button" data-period="feb">Feb 2026</button>
-            <button class="period-button active" type="button" data-period="may">May 2026</button>
-            <button class="period-button" type="button" data-period="compare">Compare</button>
+          <div id="compare-controls" class="compare-controls" hidden>
+            <label>
+              Compare
+              <select id="compare-target"></select>
+            </label>
+            <label>
+              Against
+              <select id="compare-base"></select>
+            </label>
           </div>
+          <div id="period-switch" class="period-switch" aria-label="Choose reporting period"></div>
         </div>
       </section>
 
@@ -148,6 +140,6 @@
       </section>
     </main>
 
-    <script src="app.js?v=7"></script>
+    <script src="app.js?v=10"></script>
   </body>
 </html>
