@@ -1,7 +1,24 @@
 # Asset allocation data in simple TOON-style rows
 # Values are in $000s. Blank numeric fields are treated as zero.
+# account | account | taxStatus
 # snapshot | id | label | shortLabel
 # holding | snapshotId | account | sp500 | bnd | treasury | stock | uninvested
+
+account | brokerage 1 - Vanguard Trust | taxable
+account | brokerage 2 - Vanguard | taxable
+account | brokerage 3 - Schwab Roth | tax-deferred
+account | LLC - Vanguard | taxable
+account | IRA - Vanguard | tax-deferred
+account | SEP-IRA - Vanguard | tax-deferred
+account | ROTH - Vanguard | tax-deferred
+account | 401k - Fidelity | tax-deferred
+account | eTrade | taxable
+account | Robinhood | taxable
+account | Wealthfront | taxable
+account | eTrade Unvested | taxable
+account | Sasa - Fidelity | tax-deferred
+account | Sasa - Schwab | taxable
+account | Trowe Price | tax-deferred
 
 snapshot | dec24 | Dec 01 2024 | Dec '24
 holding | dec24 | brokerage 1 - Vanguard Trust | 635 |  | 592 |  | 
@@ -236,7 +253,7 @@ holding | feb | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  |
 holding | feb | Sasa - Schwab | 2.7 |  |  |  | 
 holding | feb | Trowe Price | 2 |  |  |  | 
 
-snapshot | may | May 2026 | May
+snapshot | may | May 15 2026 | May
 holding | may | brokerage 1 - Vanguard Trust | 700 | 162 | 461 |  | 
 holding | may | brokerage 2 - Vanguard | 0 |  | 0 |  | 
 holding | may | brokerage 3 - Schwab Roth |  |  |  | 212 | 

@@ -150,7 +150,7 @@ h2 {
 
 .scoreboard {
   display: grid;
-  grid-template-columns: 1.4fr repeat(3, 1fr);
+  grid-template-columns: 1.4fr repeat(2, 1fr);
   gap: 1px;
   margin: 28px 0;
   border: 1px solid var(--ink);
@@ -275,6 +275,10 @@ th,
 
 .number-edit {
   text-align: right;
+}
+
+.tax-status-edit {
+  text-align: left;
 }
 
 .editor-action {
@@ -595,7 +599,7 @@ canvas {
 
 table {
   width: 100%;
-  min-width: 880px;
+  min-width: 980px;
   border-collapse: collapse;
   background: var(--panel);
 }
@@ -627,6 +631,17 @@ td:first-child {
 
 tbody tr:hover {
   background: #f2ecdc;
+}
+
+.tax-status-select {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 800;
 }
 
 .delta-positive {

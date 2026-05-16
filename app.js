@@ -8,6 +8,12 @@ const categories = [
 
 let periodOrder = [];
 let snapshots = {};
+let accountMeta = {};
+
+const taxStatusOptions = [
+  { value: "taxable", label: "Taxable" },
+  { value: "tax-deferred", label: "Tax deferred" },
+];
 
 function parseNumber(value) {
   const trimmed = value.trim();
@@ -17,6 +23,7 @@ function parseNumber(value) {
 function parseAllocationToon(text) {
   const parsedOrder = [];
   const parsedSnapshots = {};
+  const parsedAccountMeta = {};
   const numericKeys = ["sp500", "bnd", "treasury", "stock", "uninvested"];
 
   text.split(/\r?\n/).forEach((line, index) => {
@@ -48,10 +55,17 @@ function parseAllocationToon(text) {
       return;
     }
 
+    if (type === "account") {
+      const [, account, taxStatus] = parts;
+      if (!account) throw new Error(`Missing account reference name on line ${index + 1}`);
+      parsedAccountMeta[accountLabel(account)] = taxStatus || "taxable";
+      return;
+    }
+
     throw new Error(`Unknown row type "${type}" on line ${index + 1}`);
   });
 
-  return { periodOrder: parsedOrder, snapshots: parsedSnapshots };
+  return { periodOrder: parsedOrder, snapshots: parsedSnapshots, accountMeta: parsedAccountMeta };
 }
 
 async function loadAllocationData() {
@@ -60,6 +74,8 @@ async function loadAllocationData() {
   const parsed = parseAllocationToon(await response.text());
   periodOrder = parsed.periodOrder;
   snapshots = parsed.snapshots;
+  accountMeta = parsed.accountMeta;
+  ensureAccountMeta();
 }
 
 function renderPeriodButtons() {
@@ -84,10 +100,16 @@ function serializeAllocationToon() {
   const lines = [
     "# Asset allocation data in simple TOON-style rows",
     "# Values are in $000s. Blank numeric fields are treated as zero.",
+    "# account | account | taxStatus",
     "# snapshot | id | label | shortLabel",
     "# holding | snapshotId | account | sp500 | bnd | treasury | stock | uninvested",
     "",
   ];
+
+  accountNames().forEach((account) => {
+    lines.push(`account | ${account} | ${accountMeta[account] || inferTaxStatus(account)}`);
+  });
+  lines.push("");
 
   periodOrder.forEach((period) => {
     const snapshot = snapshots[period];
@@ -141,6 +163,7 @@ async function persistData() {
 }
 
 function updateAndSave() {
+  ensureAccountMeta();
   refreshAfterDataEdit();
   persistData();
 }
@@ -149,7 +172,13 @@ function commitInlineEdit(input, field, rowIndex) {
   const period = getVisiblePeriod();
   const row = snapshots[period].rows[rowIndex];
   if (field === "account") {
+    const previousAccount = accountLabel(row.account);
     row.account = input.value.trim() || row.account;
+    const nextAccount = accountLabel(row.account);
+    if (previousAccount !== nextAccount) {
+      accountMeta[nextAccount] = accountMeta[previousAccount] || inferTaxStatus(nextAccount);
+      delete accountMeta[previousAccount];
+    }
   } else if (input.value.trim() === "") {
     delete row[field];
   } else {
@@ -161,6 +190,30 @@ function commitInlineEdit(input, field, rowIndex) {
     row[field] = nextValue;
   }
   updateAndSave();
+}
+
+function commitTaxStatusEdit(select) {
+  accountMeta[select.dataset.account] = select.value;
+  updateAndSave();
+}
+
+function startTaxStatusEdit(button) {
+  const account = button.dataset.account;
+  const currentValue = accountMeta[account] || inferTaxStatus(account);
+  const select = document.createElement("select");
+  select.className = "inline-editor-input tax-status-select";
+  select.dataset.account = account;
+  select.setAttribute("aria-label", `${account} tax status`);
+  select.innerHTML = taxStatusOptions
+    .map((option) => `<option value="${option.value}"${option.value === currentValue ? " selected" : ""}>${option.label}</option>`)
+    .join("");
+  button.replaceWith(select);
+  select.focus();
+  select.addEventListener("change", () => commitTaxStatusEdit(select));
+  select.addEventListener("blur", () => renderRows());
+  select.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") renderRows();
+  });
 }
 
 function startInlineEdit(button) {
@@ -238,8 +291,6 @@ const els = {
   equityNote: document.querySelector("#equity-note"),
   defensiveValue: document.querySelector("#defensive-value"),
   defensiveNote: document.querySelector("#defensive-note"),
-  largestAccount: document.querySelector("#largest-account"),
-  largestNote: document.querySelector("#largest-note"),
   allocationTitle: document.querySelector("#allocation-title"),
   centerPeriod: document.querySelector("#center-period"),
   centerTotal: document.querySelector("#center-total"),
@@ -273,7 +324,7 @@ function accountKey(account) {
   return `account:${accountLabel(account)}`;
 }
 
-function accountSeries() {
+function accountNames() {
   const labels = [];
   periodOrder.forEach((period) => {
     snapshots[period].rows.forEach((row) => {
@@ -281,7 +332,25 @@ function accountSeries() {
       if (!labels.includes(label)) labels.push(label);
     });
   });
-  return labels.map((label, index) => ({
+  return labels;
+}
+
+function inferTaxStatus(account) {
+  const normalized = account.toLowerCase();
+  if (normalized.includes("401k") || normalized.includes("ira") || normalized.includes("roth") || normalized.includes("trowe price")) {
+    return "tax-deferred";
+  }
+  return "taxable";
+}
+
+function ensureAccountMeta() {
+  accountNames().forEach((account) => {
+    if (!accountMeta[account]) accountMeta[account] = inferTaxStatus(account);
+  });
+}
+
+function accountSeries() {
+  return accountNames().map((label, index) => ({
     key: `account:${label}`,
     label,
     color: accountColors[index % accountColors.length],
@@ -384,9 +453,6 @@ function renderSummary() {
   const baseTotal = sumTotals(baseTotals);
   const equity = totals.sp500 + totals.stock;
   const defensive = totals.bnd + totals.treasury + totals.uninvested;
-  const largest = snapshots[visiblePeriod].rows
-    .map((row) => ({ account: row.account, total: rowTotal(row) }))
-    .sort((a, b) => b.total - a.total)[0];
 
   els.totalValue.textContent = formatK(total);
   els.totalDelta.textContent = `${snapshots[visiblePeriod].shortLabel} is ${formatDelta(total - baseTotal)} vs ${snapshots[basePeriod].shortLabel}`;
@@ -394,8 +460,6 @@ function renderSummary() {
   els.equityNote.textContent = `${formatK(equity)} in S&P 500 + stock`;
   els.defensiveValue.textContent = percent(defensive, total);
   els.defensiveNote.textContent = `${formatK(defensive)} in BND, Treasury, cash`;
-  els.largestAccount.textContent = largest.account.replace(" (assume 60/40)", "");
-  els.largestNote.textContent = `${formatK(largest.total)} visible in ${snapshots[visiblePeriod].shortLabel}`;
 }
 
 function renderChart() {
@@ -738,9 +802,12 @@ function renderRows() {
       const current = rowTotal(row.current);
       const other = rowTotal(row.base);
       const delta = current - other;
+      const account = accountLabel(row.account);
+      const taxStatus = accountMeta[account] || inferTaxStatus(account);
       return `
         <tr>
-          <td>${isCompareMode() ? accountLabel(row.account) : `<button class="inline-edit account-edit" type="button" data-row="${row.index}" data-field="account">${accountLabel(row.account)}</button>`}</td>
+          <td>${isCompareMode() ? account : `<button class="inline-edit account-edit" type="button" data-row="${row.index}" data-field="account">${account}</button>`}</td>
+          <td><button class="inline-edit tax-status-edit" type="button" data-account="${account}">${taxStatusOptions.find((option) => option.value === taxStatus)?.label || "Taxable"}</button></td>
           ${categories
             .map((category) => {
               const value = isCompareMode()
@@ -761,12 +828,12 @@ function renderRows() {
 function renderTableHeaders() {
   const headers = document.querySelectorAll("thead th");
   const prefix = isCompareMode() ? "Δ " : "";
-  headers[1].textContent = `${prefix}S&P 500`;
-  headers[2].textContent = `${prefix}BND`;
-  headers[3].textContent = `${prefix}Treasury`;
-  headers[4].textContent = `${prefix}Stock`;
-  headers[5].textContent = `${prefix}Uninvested`;
-  headers[6].textContent = isCompareMode() ? "Δ Total" : "Total";
+  headers[2].textContent = `${prefix}S&P 500`;
+  headers[3].textContent = `${prefix}BND`;
+  headers[4].textContent = `${prefix}Treasury`;
+  headers[5].textContent = `${prefix}Stock`;
+  headers[6].textContent = `${prefix}Uninvested`;
+  headers[7].textContent = isCompareMode() ? "Δ Total" : "Total";
 }
 
 function timelineCanvasPoint(event) {
@@ -945,6 +1012,11 @@ els.search.addEventListener("input", (event) => {
 });
 
 els.rows.addEventListener("click", (event) => {
+  const taxButton = event.target.closest(".tax-status-edit");
+  if (taxButton) {
+    startTaxStatusEdit(taxButton);
+    return;
+  }
   const editButton = event.target.closest(".inline-edit");
   if (editButton) startInlineEdit(editButton);
 });
