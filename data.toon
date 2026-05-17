@@ -1,6 +1,9 @@
 # Asset allocation data in simple TOON-style rows
 # Values are in $000s. Blank numeric fields are treated as zero.
 # account | account | taxStatus
+# target | category | percent
+# contribution | snapshotId | amount
+# goal | milestone | amount
 # snapshot | id | label | shortLabel
 # holding | snapshotId | account | sp500 | bnd | treasury | stock | uninvested
 
@@ -19,6 +22,30 @@ account | eTrade Unvested | taxable
 account | Sasa - Fidelity | tax-deferred
 account | Sasa - Schwab | taxable
 account | Trowe Price | tax-deferred
+
+target | sp500 | 60
+target | bnd | 20
+target | treasury | 10
+target | stock | 5
+target | uninvested | 5
+goal | milestone | 7000
+
+contribution | dec24 | 
+contribution | apr25 | 
+contribution | may25 | 
+contribution | jun25 | 
+contribution | jul25 | 
+contribution | aug13 | 
+contribution | aug30 | 
+contribution | sep05 | 
+contribution | sep12 | 
+contribution | sep30 | 
+contribution | oct07 | 
+contribution | oct17 | 
+contribution | oct28 | 
+contribution | jan | 
+contribution | feb | 
+contribution | may | 
 
 snapshot | dec24 | Dec 01 2024 | Dec '24
 holding | dec24 | brokerage 1 - Vanguard Trust | 635 |  | 592 |  | 

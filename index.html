@@ -74,6 +74,67 @@
         </div>
       </section>
 
+      <section class="insights-section" aria-labelledby="insights-title">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">Insights</p>
+            <h2 id="insights-title">Portfolio signals</h2>
+          </div>
+          <span class="unit-pill">based on selected month</span>
+        </div>
+        <div class="insight-grid">
+          <article class="insight-panel span-2">
+            <div class="insight-heading">
+              <h3>Tax bucket allocation</h3>
+              <span id="tax-bucket-note"></span>
+            </div>
+            <div id="tax-bucket-bars" class="stacked-bars"></div>
+          </article>
+          <article class="insight-panel">
+            <div class="insight-heading">
+              <h3>Contribution vs movement</h3>
+              <span id="movement-estimate-note"></span>
+            </div>
+            <div id="movement-estimate" class="insight-stats"></div>
+          </article>
+          <article class="insight-panel">
+            <div class="insight-heading">
+              <h3>Target drift</h3>
+              <span id="target-drift-note"></span>
+            </div>
+            <div id="target-drift" class="mini-bars"></div>
+          </article>
+          <article class="insight-panel">
+            <div class="insight-heading">
+              <h3>Account concentration</h3>
+              <span id="concentration-note"></span>
+            </div>
+            <div id="concentration-list" class="rank-list"></div>
+          </article>
+          <article class="insight-panel">
+            <div class="insight-heading">
+              <h3>Cash drag</h3>
+              <span id="cash-drag-note"></span>
+            </div>
+            <div id="cash-drag" class="insight-stats"></div>
+          </article>
+          <article class="insight-panel">
+            <div class="insight-heading">
+              <h3>Tax bucket growth</h3>
+              <span id="tax-growth-note"></span>
+            </div>
+            <div id="tax-growth" class="mini-bars"></div>
+          </article>
+          <article class="insight-panel">
+            <div class="insight-heading">
+              <h3>Milestone tracker</h3>
+              <span id="milestone-note"></span>
+            </div>
+            <div id="milestone-tracker" class="milestone-track"></div>
+          </article>
+        </div>
+      </section>
+
       <section class="dashboard-grid">
         <article class="chart-panel allocation-panel">
           <div class="panel-heading">
@@ -142,6 +203,6 @@
 
     </main>
 
-    <script src="app.js?v=21"></script>
+    <script src="app.js?v=23"></script>
   </body>
 </html>

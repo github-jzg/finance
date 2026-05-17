@@ -9,11 +9,22 @@ const categories = [
 let periodOrder = [];
 let snapshots = {};
 let accountMeta = {};
+let contributions = {};
+let targetAllocation = {};
+let milestoneGoal = 7000;
 
 const taxStatusOptions = [
   { value: "taxable", label: "Taxable" },
   { value: "tax-deferred", label: "Tax deferred" },
 ];
+
+const defaultTargetAllocation = {
+  sp500: 60,
+  bnd: 20,
+  treasury: 10,
+  stock: 5,
+  uninvested: 5,
+};
 
 function parseNumber(value) {
   const trimmed = value.trim();
@@ -24,6 +35,9 @@ function parseAllocationToon(text) {
   const parsedOrder = [];
   const parsedSnapshots = {};
   const parsedAccountMeta = {};
+  const parsedContributions = {};
+  const parsedTargetAllocation = {};
+  let parsedMilestoneGoal;
   const numericKeys = ["sp500", "bnd", "treasury", "stock", "uninvested"];
 
   text.split(/\r?\n/).forEach((line, index) => {
@@ -62,10 +76,45 @@ function parseAllocationToon(text) {
       return;
     }
 
+    if (type === "target") {
+      const [, category, percentValue] = parts;
+      if (!category) throw new Error(`Missing target category on line ${index + 1}`);
+      const value = Number(percentValue);
+      if (Number.isNaN(value)) throw new Error(`Invalid target percent on line ${index + 1}`);
+      parsedTargetAllocation[category] = value;
+      return;
+    }
+
+    if (type === "contribution") {
+      const [, snapshotId, amount] = parts;
+      if (!snapshotId) throw new Error(`Missing contribution snapshot on line ${index + 1}`);
+      const value = parseNumber(amount || "");
+      if (Number.isNaN(value)) throw new Error(`Invalid contribution amount on line ${index + 1}`);
+      parsedContributions[snapshotId] = value || 0;
+      return;
+    }
+
+    if (type === "goal") {
+      const [, key, amount] = parts;
+      if (key === "milestone") {
+        const value = Number(amount);
+        if (Number.isNaN(value)) throw new Error(`Invalid milestone goal on line ${index + 1}`);
+        parsedMilestoneGoal = value;
+      }
+      return;
+    }
+
     throw new Error(`Unknown row type "${type}" on line ${index + 1}`);
   });
 
-  return { periodOrder: parsedOrder, snapshots: parsedSnapshots, accountMeta: parsedAccountMeta };
+  return {
+    periodOrder: parsedOrder,
+    snapshots: parsedSnapshots,
+    accountMeta: parsedAccountMeta,
+    contributions: parsedContributions,
+    targetAllocation: parsedTargetAllocation,
+    milestoneGoal: parsedMilestoneGoal,
+  };
 }
 
 async function loadAllocationData() {
@@ -75,7 +124,11 @@ async function loadAllocationData() {
   periodOrder = parsed.periodOrder;
   snapshots = parsed.snapshots;
   accountMeta = parsed.accountMeta;
+  contributions = parsed.contributions;
+  targetAllocation = parsed.targetAllocation;
+  milestoneGoal = parsed.milestoneGoal || milestoneGoal;
   ensureAccountMeta();
+  ensurePortfolioSettings();
 }
 
 function renderPeriodButtons() {
@@ -101,6 +154,9 @@ function serializeAllocationToon() {
     "# Asset allocation data in simple TOON-style rows",
     "# Values are in $000s. Blank numeric fields are treated as zero.",
     "# account | account | taxStatus",
+    "# target | category | percent",
+    "# contribution | snapshotId | amount",
+    "# goal | milestone | amount",
     "# snapshot | id | label | shortLabel",
     "# holding | snapshotId | account | sp500 | bnd | treasury | stock | uninvested",
     "",
@@ -108,6 +164,17 @@ function serializeAllocationToon() {
 
   accountNames().forEach((account) => {
     lines.push(`account | ${account} | ${accountMeta[account] || inferTaxStatus(account)}`);
+  });
+  lines.push("");
+
+  categories.forEach((category) => {
+    lines.push(`target | ${category.key} | ${targetAllocation[category.key] ?? defaultTargetAllocation[category.key]}`);
+  });
+  lines.push(`goal | milestone | ${milestoneGoal}`);
+  lines.push("");
+
+  periodOrder.forEach((period) => {
+    lines.push(`contribution | ${period} | ${contributions[period] || ""}`);
   });
   lines.push("");
 
@@ -237,6 +304,42 @@ function startInlineEdit(button) {
   });
 }
 
+function commitSettingEdit(input, setting, key) {
+  const value = Number(input.value);
+  if (Number.isNaN(value)) {
+    renderInsights();
+    return;
+  }
+  if (setting === "contribution") contributions[key] = value;
+  if (setting === "target") targetAllocation[key] = value;
+  if (setting === "milestone") milestoneGoal = value;
+  updateAndSave();
+}
+
+function startSettingEdit(button) {
+  const setting = button.dataset.setting;
+  const key = button.dataset.key;
+  const currentValue =
+    setting === "contribution"
+      ? contributions[key] || 0
+      : setting === "target"
+        ? targetAllocation[key] ?? defaultTargetAllocation[key]
+        : milestoneGoal;
+  const input = document.createElement("input");
+  input.className = "inline-editor-input setting-editor-input";
+  input.type = "number";
+  input.step = setting === "target" ? "0.5" : "1";
+  input.value = currentValue;
+  button.replaceWith(input);
+  input.focus();
+  input.select();
+  input.addEventListener("blur", () => commitSettingEdit(input, setting, key));
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") input.blur();
+    if (event.key === "Escape") renderInsights();
+  });
+}
+
 const state = {
   period: "may",
   compareTarget: "may",
@@ -309,6 +412,21 @@ const els = {
   addHolding: document.querySelector("#add-holding"),
   addSnapshot: document.querySelector("#add-snapshot"),
   saveStatus: document.querySelector("#save-status"),
+  insightsSection: document.querySelector(".insights-section"),
+  taxBucketBars: document.querySelector("#tax-bucket-bars"),
+  taxBucketNote: document.querySelector("#tax-bucket-note"),
+  movementEstimate: document.querySelector("#movement-estimate"),
+  movementEstimateNote: document.querySelector("#movement-estimate-note"),
+  targetDrift: document.querySelector("#target-drift"),
+  targetDriftNote: document.querySelector("#target-drift-note"),
+  concentrationList: document.querySelector("#concentration-list"),
+  concentrationNote: document.querySelector("#concentration-note"),
+  cashDrag: document.querySelector("#cash-drag"),
+  cashDragNote: document.querySelector("#cash-drag-note"),
+  taxGrowth: document.querySelector("#tax-growth"),
+  taxGrowthNote: document.querySelector("#tax-growth-note"),
+  milestoneTracker: document.querySelector("#milestone-tracker"),
+  milestoneNote: document.querySelector("#milestone-note"),
 };
 
 const timelineSeries = [
@@ -349,6 +467,15 @@ function ensureAccountMeta() {
   });
 }
 
+function ensurePortfolioSettings() {
+  categories.forEach((category) => {
+    if (targetAllocation[category.key] === undefined) targetAllocation[category.key] = defaultTargetAllocation[category.key];
+  });
+  periodOrder.forEach((period) => {
+    if (contributions[period] === undefined) contributions[period] = 0;
+  });
+}
+
 function accountSeries() {
   return accountNames().map((label, index) => ({
     key: `account:${label}`,
@@ -380,6 +507,32 @@ function totalsFor(period) {
 
 function sumTotals(totals) {
   return categories.reduce((sum, category) => sum + totals[category.key], 0);
+}
+
+function totalsForRows(rows) {
+  return categories.reduce((totals, category) => {
+    totals[category.key] = rows.reduce((sum, row) => sum + valueOf(row, category.key), 0);
+    return totals;
+  }, {});
+}
+
+function taxStatusForAccount(account) {
+  return accountMeta[accountLabel(account)] || inferTaxStatus(accountLabel(account));
+}
+
+function taxBucketTotals(period) {
+  return snapshots[period].rows.reduce(
+    (result, row) => {
+      const status = taxStatusForAccount(row.account);
+      result[status].rows.push(row);
+      result[status].total += rowTotal(row);
+      return result;
+    },
+    {
+      taxable: { label: "Taxable", rows: [], total: 0 },
+      "tax-deferred": { label: "Tax deferred", rows: [], total: 0 },
+    },
+  );
 }
 
 function accountMap(period) {
@@ -777,6 +930,152 @@ function renderDeltaBars() {
     .join("");
 }
 
+function renderTaxBucketAllocation() {
+  const visiblePeriod = getVisiblePeriod();
+  const buckets = taxBucketTotals(visiblePeriod);
+  const total = buckets.taxable.total + buckets["tax-deferred"].total || 1;
+  els.taxBucketNote.textContent = snapshots[visiblePeriod].shortLabel;
+  els.taxBucketBars.innerHTML = Object.entries(buckets)
+    .map(([status, bucket]) => {
+      const totals = totalsForRows(bucket.rows);
+      const bucketTotal = bucket.total || 1;
+      const width = `${Math.max(2, (bucket.total / total) * 100)}%`;
+      return `
+        <div class="bucket-row">
+          <div class="bucket-label">
+            <strong>${bucket.label}</strong>
+            <span>${formatK(bucket.total)} · ${percent(bucket.total, total)}</span>
+          </div>
+          <div class="bucket-track">
+            <span class="bucket-fill ${status}" style="--bar-width:${width}"></span>
+          </div>
+          <div class="bucket-mix">
+            ${categories
+              .map((category) => `<span><i style="--color:${category.color}"></i>${category.label} ${percent(totals[category.key], bucketTotal)}</span>`)
+              .join("")}
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function renderMovementEstimate() {
+  const visiblePeriod = getVisiblePeriod();
+  const currentIndex = periodOrder.indexOf(visiblePeriod);
+  const priorPeriod = periodOrder[Math.max(0, currentIndex - 1)];
+  const currentTotal = sumTotals(totalsFor(visiblePeriod));
+  const priorTotal = priorPeriod === visiblePeriod ? currentTotal : sumTotals(totalsFor(priorPeriod));
+  const totalChange = currentTotal - priorTotal;
+  const contribution = contributions[visiblePeriod] || 0;
+  const estimatedMovement = totalChange - contribution;
+  els.movementEstimateNote.textContent = priorPeriod === visiblePeriod ? "first snapshot" : `vs ${snapshots[priorPeriod].shortLabel}`;
+  els.movementEstimate.innerHTML = `
+    <div><span>Total change</span><strong>${formatDelta(totalChange)}</strong></div>
+    <div><span>Net contribution</span><button class="inline-edit setting-edit" type="button" data-setting="contribution" data-key="${visiblePeriod}">${formatDelta(contribution)}</button></div>
+    <div><span>Estimated market move</span><strong class="${estimatedMovement < 0 ? "delta-negative" : "delta-positive"}">${formatDelta(estimatedMovement)}</strong></div>
+  `;
+}
+
+function renderTargetDrift() {
+  const visiblePeriod = getVisiblePeriod();
+  const totals = totalsFor(visiblePeriod);
+  const total = sumTotals(totals) || 1;
+  const driftItems = categories.map((category) => {
+    const actual = (totals[category.key] / total) * 100;
+    const target = targetAllocation[category.key] ?? defaultTargetAllocation[category.key];
+    return { ...category, actual, target, drift: actual - target };
+  });
+  els.targetDriftNote.textContent = "actual vs target";
+  els.targetDrift.innerHTML = driftItems
+    .map((item) => `
+      <div class="mini-bar-row">
+        <span>${item.label}</span>
+        <div class="mini-track"><i style="--bar-width:${Math.min(100, Math.abs(item.drift) * 4)}%; --bar-color:${item.drift < 0 ? "var(--loss)" : "var(--gain)"}"></i></div>
+        <strong class="${item.drift < 0 ? "delta-negative" : "delta-positive"}">${item.drift > 0 ? "+" : ""}${item.drift.toFixed(1)}% <button class="inline-edit setting-edit percent-edit" type="button" data-setting="target" data-key="${item.key}">${item.target}%</button></strong>
+      </div>
+    `)
+    .join("");
+}
+
+function renderConcentration() {
+  const visiblePeriod = getVisiblePeriod();
+  const rows = [...snapshots[visiblePeriod].rows]
+    .map((row) => ({ account: accountLabel(row.account), total: rowTotal(row) }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 5);
+  const total = sumTotals(totalsFor(visiblePeriod)) || 1;
+  const largest = rows[0];
+  els.concentrationNote.textContent = largest ? `${percent(largest.total, total)} largest` : "";
+  els.concentrationList.innerHTML = rows
+    .map((row) => `
+      <div class="rank-row">
+        <span>${row.account}</span>
+        <div class="mini-track"><i style="--bar-width:${(row.total / total) * 100}%; --bar-color:var(--treasury)"></i></div>
+        <strong>${percent(row.total, total)}</strong>
+      </div>
+    `)
+    .join("");
+}
+
+function renderCashDrag() {
+  const visiblePeriod = getVisiblePeriod();
+  const totals = totalsFor(visiblePeriod);
+  const total = sumTotals(totals);
+  const cash = totals.uninvested;
+  els.cashDragNote.textContent = `${snapshots[visiblePeriod].shortLabel} idle cash`;
+  els.cashDrag.innerHTML = `
+    <div><span>Uninvested</span><strong>${formatK(cash)}</strong></div>
+    <div><span>Portfolio share</span><strong>${percent(cash, total)}</strong></div>
+    <div><span>Above 5% target</span><strong class="${cash / (total || 1) > 0.05 ? "delta-negative" : "delta-positive"}">${formatDelta(cash - total * 0.05)}</strong></div>
+  `;
+}
+
+function renderTaxGrowth() {
+  const visiblePeriod = getVisiblePeriod();
+  const basePeriod = getBasePeriod();
+  const current = taxBucketTotals(visiblePeriod);
+  const base = taxBucketTotals(basePeriod);
+  els.taxGrowthNote.textContent = `${snapshots[basePeriod].shortLabel} to ${snapshots[visiblePeriod].shortLabel}`;
+  els.taxGrowth.innerHTML = Object.keys(current)
+    .map((status) => {
+      const delta = current[status].total - base[status].total;
+      return `
+        <div class="mini-bar-row">
+          <span>${current[status].label}</span>
+          <div class="mini-track"><i style="--bar-width:${Math.min(100, Math.abs(delta) / 20)}%; --bar-color:${delta < 0 ? "var(--loss)" : "var(--gain)"}"></i></div>
+          <strong class="${delta < 0 ? "delta-negative" : "delta-positive"}">${formatDelta(delta)}</strong>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function renderMilestone() {
+  const visiblePeriod = getVisiblePeriod();
+  const total = sumTotals(totalsFor(visiblePeriod));
+  const remaining = milestoneGoal - total;
+  const progress = milestoneGoal ? Math.min(100, (total / milestoneGoal) * 100) : 100;
+  els.milestoneNote.innerHTML = `<button class="inline-edit setting-edit milestone-edit" type="button" data-setting="milestone" data-key="goal">${formatK(milestoneGoal)} goal</button>`;
+  els.milestoneTracker.innerHTML = `
+    <div class="milestone-bar"><i style="--bar-width:${progress}%"></i></div>
+    <div class="milestone-copy">
+      <strong>${Math.round(progress)}%</strong>
+      <span>${remaining <= 0 ? `${formatK(Math.abs(remaining))} beyond goal` : `${formatK(remaining)} to go`}</span>
+    </div>
+  `;
+}
+
+function renderInsights() {
+  renderTaxBucketAllocation();
+  renderMovementEstimate();
+  renderTargetDrift();
+  renderConcentration();
+  renderCashDrag();
+  renderTaxGrowth();
+  renderMilestone();
+}
+
 function renderRows() {
   const visiblePeriod = getVisiblePeriod();
   const basePeriod = getBasePeriod();
@@ -962,6 +1261,7 @@ function render() {
   renderDriftChart();
   renderChart();
   renderDeltaBars();
+  renderInsights();
   renderTableHeaders();
   renderRows();
 }
@@ -1009,6 +1309,11 @@ els.search.addEventListener("input", (event) => {
   state.query = event.target.value;
   saveUiState();
   renderRows();
+});
+
+els.insightsSection.addEventListener("click", (event) => {
+  const settingButton = event.target.closest(".setting-edit");
+  if (settingButton) startSettingEdit(settingButton);
 });
 
 els.rows.addEventListener("click", (event) => {

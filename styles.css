@@ -202,6 +202,7 @@ th,
 
 .chart-panel,
 .drift-section,
+.insights-section,
 .timeline-section,
 .table-section {
   border: 1px solid var(--ink);
@@ -239,6 +240,162 @@ th,
 .drift-section {
   margin-bottom: 24px;
   padding: 24px;
+}
+
+.insights-section {
+  margin-bottom: 24px;
+  padding: 24px;
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.insight-panel {
+  min-height: 190px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.insight-panel.span-2 {
+  grid-column: span 2;
+}
+
+.insight-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.insight-heading h3 {
+  margin: 0;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.96rem;
+  letter-spacing: 0;
+}
+
+.insight-heading span,
+.bucket-label span,
+.insight-stats span,
+.milestone-copy span {
+  color: var(--muted);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.stacked-bars,
+.mini-bars,
+.rank-list,
+.insight-stats {
+  display: grid;
+  gap: 11px;
+}
+
+.bucket-row {
+  display: grid;
+  gap: 8px;
+}
+
+.bucket-label,
+.milestone-copy {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.bucket-track,
+.mini-track,
+.milestone-bar {
+  position: relative;
+  min-height: 16px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.bucket-fill,
+.mini-track i,
+.milestone-bar i {
+  display: block;
+  width: var(--bar-width);
+  height: 100%;
+  background: var(--bar-color, var(--sp500));
+}
+
+.bucket-fill.taxable {
+  --bar-color: var(--sp500);
+}
+
+.bucket-fill.tax-deferred {
+  --bar-color: var(--treasury);
+}
+
+.bucket-mix {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  color: var(--muted);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.bucket-mix span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bucket-mix i {
+  width: 9px;
+  height: 9px;
+  background: var(--color);
+}
+
+.insight-stats div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.insight-stats strong,
+.rank-row strong,
+.mini-bar-row strong,
+.milestone-copy strong {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.mini-bar-row,
+.rank-row {
+  display: grid;
+  grid-template-columns: minmax(92px, 1fr) minmax(86px, 1.2fr) 70px;
+  gap: 10px;
+  align-items: center;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.mini-track {
+  min-height: 12px;
+}
+
+.milestone-bar {
+  min-height: 22px;
+}
+
+.milestone-bar i {
+  background: var(--gain);
 }
 
 .inline-edit {
@@ -279,6 +436,20 @@ th,
 
 .tax-status-edit {
   text-align: left;
+}
+
+.setting-edit {
+  display: inline;
+  width: auto;
+  min-height: 0;
+  padding: 0 2px;
+  font-weight: 900;
+}
+
+.percent-edit,
+.milestone-edit {
+  color: var(--muted);
+  font-size: 0.72rem;
 }
 
 .editor-action {
@@ -666,8 +837,13 @@ tbody tr:hover {
   }
 
   .scoreboard,
-  .dashboard-grid {
+  .dashboard-grid,
+  .insight-grid {
     grid-template-columns: 1fr;
+  }
+
+  .insight-panel.span-2 {
+    grid-column: auto;
   }
 }
 
@@ -697,6 +873,7 @@ tbody tr:hover {
   .metric-panel,
   .chart-panel,
   .drift-section,
+  .insights-section,
   .timeline-section,
   .table-section {
     padding: 18px;
