@@ -115,6 +115,44 @@ h2 {
   gap: 16px;
 }
 
+.app-tabs {
+  display: flex;
+  border: 1px solid var(--ink);
+  background: var(--panel);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.app-tab {
+  min-height: 38px;
+  padding: 8px 16px;
+  border: 0;
+  border-right: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.app-tab:last-child {
+  border-right: 0;
+}
+
+.app-tab.active {
+  background: var(--ink);
+  color: var(--panel);
+}
+
+.tab-view {
+  display: none;
+}
+
+.tab-view.active {
+  display: block;
+}
+
 .compare-controls {
   display: flex;
   flex-wrap: wrap;
@@ -740,6 +778,294 @@ canvas {
   padding: 24px;
 }
 
+.tax-plan-section {
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid var(--ink);
+  background: rgba(255, 253, 247, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.plan-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: 22px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.plan-summary article {
+  min-height: 112px;
+  padding: 18px;
+  background: var(--panel);
+}
+
+.plan-summary span,
+.plan-summary em,
+.plan-notes,
+.tax-plan-table td span {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.plan-summary span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.plan-summary strong {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 1.7rem;
+}
+
+.plan-summary em {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-style: normal;
+}
+
+.strategy-explainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 18px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.asset-location-explainer {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.strategy-explainer article {
+  padding: 18px;
+  background: var(--panel);
+}
+
+.strategy-explainer h3 {
+  margin: 0 0 8px;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.strategy-explainer p {
+  margin: 0;
+  color: var(--muted);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.plan-table-wrap {
+  margin-top: 22px;
+}
+
+.tax-plan-table {
+  min-width: 1280px;
+}
+
+.tax-plan-table th,
+.tax-plan-table td {
+  vertical-align: top;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.tax-plan-table td:first-child {
+  width: 92px;
+}
+
+.tax-plan-table td:first-child strong,
+.tax-plan-table td:first-child span {
+  display: block;
+}
+
+.tax-plan-table td:first-child span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.tax-plan-table .retire-row {
+  background: #f2ecdc;
+}
+
+.financial-state {
+  display: grid;
+  gap: 5px;
+  min-width: 200px;
+}
+
+.financial-state strong,
+.financial-state span,
+.financial-state em {
+  display: block;
+}
+
+.financial-state span {
+  color: var(--ink);
+  font-size: 0.82rem;
+}
+
+.financial-state .pool-line {
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.financial-state .pool-line b {
+  color: var(--ink);
+}
+
+.allocation-ticket {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.allocation-ticket span {
+  display: grid;
+  grid-template-columns: minmax(92px, 1fr) auto;
+  gap: 10px;
+  padding: 6px 8px;
+  background: var(--paper);
+}
+
+.allocation-ticket b,
+.allocation-ticket em {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-style: normal;
+}
+
+.allocation-ticket em {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+}
+
+.allocation-ticket .muted-row b,
+.allocation-ticket .muted-row em {
+  color: var(--muted);
+}
+
+.pool-ticket {
+  display: grid;
+  gap: 1px;
+  margin-top: 4px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.pool-ticket > strong {
+  padding: 6px 8px;
+  background: #f2ecdc;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pool-ticket span {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) auto;
+  gap: 4px 10px;
+  padding: 7px 8px;
+  background: var(--paper);
+}
+
+.pool-ticket b,
+.pool-ticket em,
+.pool-ticket small {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.pool-ticket b,
+.pool-ticket em {
+  color: var(--ink);
+}
+
+.pool-ticket em {
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+}
+
+.pool-ticket small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.pool-ticket .conversion-row {
+  background: #f2ecdc;
+}
+
+.pool-ticket .conversion-row b,
+.pool-ticket .conversion-row em {
+  color: var(--ink);
+}
+
+.move-list {
+  display: grid;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 8px;
+  border: 1px solid var(--ink);
+  background: #f2ecdc;
+}
+
+.move-list > strong {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.move-list .move-subhead {
+  margin-top: 4px;
+}
+
+.financial-state .move-line {
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.financial-state .move-line b {
+  color: var(--ink);
+}
+
+.financial-state em {
+  color: var(--muted);
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  font-style: normal;
+  line-height: 1.25;
+}
+
+.plan-notes {
+  margin-top: 20px;
+  color: var(--muted);
+}
+
+.plan-notes h3 {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.plan-notes ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
 .search-wrap {
   display: grid;
   gap: 6px;
@@ -838,7 +1164,9 @@ tbody tr:hover {
 
   .scoreboard,
   .dashboard-grid,
-  .insight-grid {
+  .insight-grid,
+  .plan-summary,
+  .strategy-explainer {
     grid-template-columns: 1fr;
   }
 

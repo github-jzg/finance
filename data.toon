@@ -22,6 +22,7 @@ account | eTrade Unvested | taxable
 account | Sasa - Fidelity | tax-deferred
 account | Sasa - Schwab | taxable
 account | Trowe Price | tax-deferred
+account | New account | taxable
 
 target | sp500 | 60
 target | bnd | 20
@@ -29,6 +30,8 @@ target | treasury | 10
 target | stock | 5
 target | uninvested | 5
 goal | milestone | 7000
+goal | annualSpend | 225
+goal | collegeReserve | 225
 
 contribution | dec24 | 
 contribution | apr25 | 
@@ -296,3 +299,5 @@ holding | may | eTrade Unvested |  |  |  |  | 292
 holding | may | Sasa - Fidelity (assume 60/40) | 1020 | 780 |  |  | 
 holding | may | Sasa - Schwab | 2.7 |  |  |  | 
 holding | may | Trowe Price | 2 |  |  |  | 
+holding | may | New account |  |  |  |  | 
+holding | may | New account |  |  |  |  | 

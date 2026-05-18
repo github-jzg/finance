@@ -4,6 +4,7 @@ const path = require("path");
 
 const root = __dirname;
 const port = 4174;
+const host = "0.0.0.0";
 const types = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
@@ -60,6 +61,7 @@ http
       else res.end(content);
     });
   })
-  .listen(port, "127.0.0.1", () => {
+  .listen(port, host, () => {
     console.log(`Asset allocation app running at http://127.0.0.1:${port}/`);
+    console.log(`On your phone, try http://192.168.68.55:${port}/`);
   });

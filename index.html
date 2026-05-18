@@ -14,6 +14,10 @@
           <h1 id="page-title">Asset allocation</h1>
         </div>
         <div class="masthead-right">
+          <nav class="app-tabs" aria-label="Dashboard views">
+            <button class="app-tab active" type="button" data-tab="dashboard">Dashboard</button>
+            <button class="app-tab" type="button" data-tab="tax-plan">Tax plan</button>
+          </nav>
           <div id="compare-controls" class="compare-controls" hidden>
             <label>
               Compare
@@ -28,6 +32,7 @@
         </div>
       </section>
 
+      <div id="dashboard-view" class="tab-view active">
       <section class="scoreboard" aria-label="Portfolio summary">
         <article class="metric-panel total-panel">
           <span class="metric-label">Total visible assets</span>
@@ -40,7 +45,7 @@
           <span id="equity-note" class="metric-note"></span>
         </article>
         <article class="metric-panel">
-          <span class="metric-label">Fixed income + cash</span>
+          <span class="metric-label">Fixed income + runway</span>
           <strong id="defensive-value">0%</strong>
           <span id="defensive-note" class="metric-note"></span>
         </article>
@@ -113,7 +118,7 @@
           </article>
           <article class="insight-panel">
             <div class="insight-heading">
-              <h3>Cash drag</h3>
+              <h3>Unvested stock</h3>
               <span id="cash-drag-note"></span>
             </div>
             <div id="cash-drag" class="insight-stats"></div>
@@ -200,9 +205,119 @@
           </table>
         </div>
       </section>
+      </div>
+
+      <div id="tax-plan-view" class="tab-view">
+        <section class="tax-plan-section" aria-labelledby="tax-plan-title">
+          <div class="panel-heading">
+            <div>
+              <p class="kicker">Retire at 60 strategy</p>
+              <h2 id="tax-plan-title">Year-by-year tax plan</h2>
+            </div>
+            <span class="unit-pill">planning guide, not tax advice</span>
+          </div>
+          <div class="plan-summary">
+            <article>
+              <span>Assumption</span>
+              <strong>Retire at 60</strong>
+              <em>Approx. 2032 if age 54 in 2026</em>
+            </article>
+            <article>
+              <span>Spend assumption</span>
+              <strong id="plan-spend-assumption">$225k/yr</strong>
+              <em>Click the value in plan rows to edit</em>
+            </article>
+            <article>
+              <span>Window</span>
+              <strong>60-72</strong>
+              <em>Low/controlled income years before RMDs</em>
+            </article>
+            <article>
+              <span>RMD anchor</span>
+              <strong>73</strong>
+              <em id="plan-baseline">Current IRS starting age for most owners</em>
+            </article>
+          </div>
+          <div class="strategy-explainer">
+            <article>
+              <h3>Strategy</h3>
+              <p>
+                Separate retirement readiness, asset location, and tax optimization. First build a taxable Treasury runway and bond bucket so spending does not depend on selling stocks in a bad market. Then use the low-income years between retirement and RMDs to choose between Roth conversions and long-term capital-gains harvesting.
+              </p>
+            </article>
+            <article>
+              <h3>Why</h3>
+              <p>
+                The Treasury and bond buckets protect lifestyle spending. Roth conversions can reduce future RMD pressure from tax-deferred accounts. Capital-gains harvesting can reset taxable basis when income is low enough to use favorable federal long-term capital-gains brackets.
+              </p>
+            </article>
+            <article>
+              <h3>How to read this</h3>
+              <p>
+                Dollar action is the portfolio move. The three strategy columns are alternatives, not commands to do all at once. Pick the column that best matches that year's tax bracket, healthcare subsidy or IRMAA exposure, and need for taxable cash.
+              </p>
+            </article>
+          </div>
+          <div class="strategy-explainer asset-location-explainer">
+            <article>
+              <h3>Taxable bridge</h3>
+              <p>
+                Use non-retirement accounts for the age 54-60 bridge and early retirement cash flow. Hold VUSXX/VMFXX/SGOV/T-bills for runway, keep high-basis VOO/VTI lots available for optional cash, and harvest gains only when the tax bracket makes sense.
+              </p>
+            </article>
+            <article>
+              <h3>Tax-deferred</h3>
+              <p>
+                Treat IRA/401k assets as the RMD-pressure bucket. It is a good home for BND/VGIT/Treasuries, and it is the source account for planned Roth conversions of VOO/VTI or bond ETF shares during low-income years.
+              </p>
+            </article>
+            <article>
+              <h3>Roth growth</h3>
+              <p>
+                Use Roth space for the longest-horizon growth assets after conversions, usually broad stock ETFs such as VOO/VTI. Spend this bucket late unless taxes, estate goals, or risk control argue otherwise.
+              </p>
+            </article>
+            <article>
+              <h3>Unvested stock</h3>
+              <p>
+                Track it for net worth, but exclude it from cash runway and defensive bucket math until it vests and is liquid. Once vested, decide whether it becomes spending runway, taxable equity, or tax-payment cash.
+              </p>
+            </article>
+          </div>
+          <div class="table-wrap plan-table-wrap">
+            <table class="tax-plan-table">
+              <thead>
+                <tr>
+                  <th scope="col">Age</th>
+                  <th scope="col">Phase</th>
+                  <th scope="col">Dollar action</th>
+                  <th scope="col">Current allocation and financial state</th>
+                  <th scope="col">Recommended allocation and financial state</th>
+                  <th scope="col">Tax-balanced path</th>
+                  <th scope="col">Roth-conversion heavy</th>
+                  <th scope="col">Capital-gains harvest heavy</th>
+                  <th scope="col">Watchouts</th>
+                </tr>
+              </thead>
+              <tbody id="tax-plan-rows"></tbody>
+            </table>
+          </div>
+          <div class="plan-notes">
+            <h3>Rules to model with your CPA</h3>
+            <ul>
+              <li>Use taxable cash/treasuries first where it preserves flexibility before age 59½.</li>
+              <li>Keep the buckets distinct: taxable funds the bridge, tax-deferred manages RMD risk, and Roth holds last-dollar growth.</li>
+              <li>Do not count unvested stock as runway until it has vested and can actually be sold.</li>
+              <li>Harvest long-term capital gains up to the 0% federal bracket when taxable income allows.</li>
+              <li>Convert traditional IRA/401k dollars to Roth in low-income years, but watch Medicare IRMAA once Medicare age approaches.</li>
+              <li>Plan RMDs before they start so tax-deferred accounts do not force oversized taxable income later.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
 
     </main>
 
-    <script src="app.js?v=23"></script>
+    <script src="app.js?v=47"></script>
   </body>
 </html>
